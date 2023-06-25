@@ -22,8 +22,6 @@ const Gallery = () => {
         }, Object.create(null))
     }, [filteredPosts, categoryTypes])
 
-
-
     if (posts.loading) {
         return <Loader />
     }
