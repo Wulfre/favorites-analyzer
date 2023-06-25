@@ -1,9 +1,9 @@
-import React from 'react'
-import { z } from 'zod'
-import '~/app/global.css'
+import React from "react"
+import { z } from "zod"
+import "~/app/global.css"
 
 const metadata = {
-    title: 'Favorites Analyzer',
+    title: "Favorites Analyzer",
 }
 
 const rootLayoutPropsSchema = z.object({
@@ -14,7 +14,7 @@ type RootLayoutProps = z.infer<typeof rootLayoutPropsSchema>
 const RootLayout = (props: RootLayoutProps) => {
     return (
         <html lang="en">
-            <body className='font-sans bg-background c-foreground grid justify-center'>
+            <body className="font-sans bg-background c-foreground grid justify-center min-h-100dvh">
                 {props.children}
             </body>
         </html>

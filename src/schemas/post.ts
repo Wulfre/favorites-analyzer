@@ -1,6 +1,4 @@
-"use server"
-
-import { z } from "zod";
+import { z } from "zod"
 
 const postSchema = z.object({
     id: z.number(),
@@ -72,53 +70,7 @@ const postSchema = z.object({
     is_favorited: z.boolean(),
     has_notes: z.boolean(),
     duration: z.number().nullable(),
-});
-type Post = z.infer<typeof postSchema>;
-
-const userSchema = z.object({
-    id: z.number(),
-    created_at: z.string(),
-    name: z.string(),
-    level: z.number(),
-    base_upload_limit: z.number(),
-    post_upload_count: z.number(),
-    post_update_count: z.number(),
-    note_update_count: z.number(),
-    is_banned: z.boolean(),
-    can_approve_posts: z.boolean(),
-    can_upload_free: z.boolean(),
-    level_string: z.string(),
-    avatar_id: z.number().nullable(),
 })
-type User = z.infer<typeof userSchema>;
+type Post = z.infer<typeof postSchema>
 
-const client = 'Favorites Analyzer/0.1 (by Wulfre)';
-
-const getUser = async (username: string): Promise<User[]> => {
-    const response = await fetch(`https://e621.net/users.json?search[name_matches]=${username}&_client=${client}`)
-    const data = await response.json()
-    userSchema.array().parse(data)
-    return data
-}
-
-const postsResponseSchema = z.object({
-    posts: z.array(postSchema).optional(),
-    success: z.boolean().optional(),
-    reason: z.string().optional(),
-})
-
-const getFavorites = async (username: string): Promise<Post[]> => {
-    const userId = (await getUser(username))?.[0]?.id
-    if (!userId) {
-        return []
-    }
-
-    const response = await fetch(`https://e621.net/favorites.json?user_id=${userId}&_client=${client}`, {
-        cache: 'no-store'
-    })
-    const data = await response.json()
-    postsResponseSchema.parse(data)
-    return data.posts ?? []
-}
-
-export { getFavorites, type Post }
+export { type Post, postSchema }

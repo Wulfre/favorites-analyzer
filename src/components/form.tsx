@@ -1,28 +1,46 @@
-'use client'
+"use client"
 
-import { useFormStore } from '~/stores/form'
-import { usePostsStore } from '~/stores/posts'
+import { useFavoritesResource, useUserResource } from "~/stores/favorites"
+import { useFormStore } from "~/stores/form"
 
 const Form = () => {
-    const { username, setUsername } = useFormStore()
-    const { fetchPosts, postsLoading } = usePostsStore()
+    const { username, setUsername, limit, setLimit } = useFormStore()
+    const posts = useFavoritesResource()
+    const user = useUserResource()
 
     return (
-        <div data-id={'form-user'} className={'flex flex-col gap-6 w-32ch'}>
-            <div className='flex flex-col'>
-                <input
-                    className={'bg-foreground c-background p-2 b-transparent b-2 b-rd-2 outline-none text-center focus:b-blue placeholder:c-background placeholder:opacity-50'}
-                    type={'text'}
-                    placeholder={'username'}
-                    value={username}
-                    onInput={(event) => {
-                        setUsername(event.currentTarget.value)
-                    }} />
+        <>
+            <div data-id={"form"} className={"grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6"}>
+                <div className="flex flex-col">
+                    <span>Username</span>
+                    <input
+                        className={"bg-foreground c-background p-2 b-white b-2 b-rd-2 outline-none text-center focus:outline-blue"}
+                        type={"text"}
+                        value={username}
+                        onChange={(event) => {
+                            setUsername(event.currentTarget.value)
+                        }}
+                    />
+                </div>
+                <div className="flex flex-col">
+                    <span>Limit</span>
+                    <input
+                        className={"bg-foreground c-background p-2 b-white b-2 b-rd-2 outline-none text-center focus:outline-blue"}
+                        type={"number"}
+                        value={limit}
+                        onChange={(event) => {
+                            setLimit(Number(event.currentTarget.value))
+                        }}
+                    />
+                </div>
             </div>
-            <button className={'p-2 b-foreground b-2 b-rd-2'} disabled={postsLoading} onClick={() => {
-                fetchPosts()
-            }}>Go</button>
-        </div>
+            <button className={"p-2 m-t-6 b-foreground b-2 b-rd-2"} onClick={async () => {
+                await user.fetch()
+                await posts.fetch()
+            }}>
+                Go
+            </button>
+        </>
     )
 }
 
