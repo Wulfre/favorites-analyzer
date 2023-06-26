@@ -5,39 +5,53 @@ import ImageFallback from "~/components/imagefallback"
 import Loader from "~/components/loader"
 import { categoryKeySchema } from "~/schemas/post"
 import { useFavoritesResource } from "~/stores/favorites"
+import { mapToArray } from "~/utils/map-to-array"
 
 const Gallery = () => {
     const favoritesResource = useFavoritesResource()
-    const filteredFavorites = useMemo(() => favoritesResource.value?.filter((post) => !post.flags.deleted) ?? [], [favoritesResource])
+    const scoredTags = useMemo(() => {
+        // assign favorites value to a local variable and return early in undefined cases so typescript can infer
+        const favorites = favoritesResource.value
+        if (!favorites) return new Map<string, Map<string, number>>()
 
-    const categoryCounts = useMemo(() => {
-        const scoredTagsByCategory = filteredFavorites.reduce((accumulator, post, index) => {
+        const scoredTags = favorites.reduce((accumulator, post, index) => {
             for (const category in post.tags) {
                 const validCategory = categoryKeySchema.parse(category)
-                accumulator[validCategory] = accumulator[validCategory] ?? Object.create(null)
+
+                // initialize a new sub-map if the current category hastn't been seen yet
+                const currentCategory = accumulator.get(validCategory)
+                    ?? accumulator.set(validCategory, new Map<string, number>()).get(validCategory)
+
                 for (const tag of post.tags[validCategory] ?? []) {
-                    accumulator[validCategory][tag] = (accumulator[validCategory][tag] ?? 0) + 1 * (1 - (index / filteredFavorites.length))
+                    // calculate score based on position in favorites list (recency) and frequency
+                    const currentScore = currentCategory?.get(tag) ?? 0
+                    currentCategory?.set(tag, currentScore + 1 * (1 - (index / favorites.length)))
                 }
             }
             return accumulator
-        }, Object.create(null))
+        }, new Map<string, Map<string, number>>())
 
-        // TODO: fix the type errors later I literally do not care right now
-        return Object.fromEntries(Object.entries(scoredTagsByCategory).map(([category, tags]) => {
-            return [category, Object.fromEntries(Object.entries(tags).sort(([, a], [, b]) => b - a))]
-        }))
+        // sort tags within each category
+        for (const [category, tags] of scoredTags.entries()) {
+            const sortedTags = [...tags.entries()].sort(([, a], [, b]) => b - a)
+            scoredTags.set(category, new Map(sortedTags))
+        }
 
-    }, [filteredFavorites])
+        return scoredTags
+    }, [favoritesResource.value])
 
+    // render loader if the favorites resource is is not finsihed loading
     if (favoritesResource.loading) {
         return <Loader />
     }
 
+    // render main gallery component
     return (
         <>
-            <pre className="whitespace-pre-wrap">{JSON.stringify(categoryCounts, undefined, 4)}</pre>
+            {/* TODO -- remove this pre element when finished debugging */}
+            <pre className="whitespace-pre-wrap">{JSON.stringify(mapToArray(scoredTags), undefined, 4)}</pre>
             <div data-id={"gallery"} className={"grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6"}>
-                {filteredFavorites?.map(post => (
+                {favoritesResource.value?.map(post => (
                     <div key={post.id} className="flex flex-col justify-center">
                         <a
                             href={`https://e621.net/posts/${post.id}`}

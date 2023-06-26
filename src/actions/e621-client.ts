@@ -36,7 +36,7 @@ const getFavoritePosts = async (userId: string, favoriteCount: number): Promise<
     )
 
     const responses = await Promise.all(requests)
-    return responses.flat()
+    return responses.flat().filter((post) => !post.flags.deleted)
 }
 
 export { getFavoritePosts, getUser, }
