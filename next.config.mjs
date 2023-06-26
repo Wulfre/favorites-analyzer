@@ -7,7 +7,7 @@ const nextConfig = {
             protocol: "https",
             hostname: "static1.e621.net",
             port: "",
-            path: "/data/**",
+            pathname: "/data/**",
         }]
     },
     experimental: {

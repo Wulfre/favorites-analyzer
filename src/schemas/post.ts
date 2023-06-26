@@ -1,5 +1,17 @@
 import { z } from "zod"
 
+const categoryKeySchema = z.union([
+    z.literal("general"),
+    z.literal("species"),
+    z.literal("character"),
+    z.literal("artist"),
+    z.literal("copyright"),
+    z.literal("lore"),
+    z.literal("meta"),
+    z.literal("invalid"),
+])
+type CategoryKey = z.infer<typeof categoryKeySchema>
+
 const postSchema = z.object({
     id: z.number(),
     created_at: z.string(),
@@ -34,15 +46,7 @@ const postSchema = z.object({
         down: z.number(),
         total: z.number(),
     }),
-    tags: z.object({
-        general: z.array(z.string()),
-        species: z.array(z.string()),
-        character: z.array(z.string()),
-        artist: z.array(z.string()),
-        invalid: z.array(z.string()),
-        lore: z.array(z.string()),
-        meta: z.array(z.string()),
-    }),
+    tags: z.record(categoryKeySchema, z.array(z.string())),
     locked_tags: z.array(z.string()),
     change_seq: z.number(),
     flags: z.object({
@@ -73,4 +77,4 @@ const postSchema = z.object({
 })
 type Post = z.infer<typeof postSchema>
 
-export { type Post, postSchema }
+export { type CategoryKey, categoryKeySchema, type Post, postSchema }
