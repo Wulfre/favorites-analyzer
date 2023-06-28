@@ -1,7 +1,6 @@
 "use client"
 
 import { useMemo } from "react"
-import ImageFallback from "~/components/imagefallback"
 import Loader from "~/components/loader"
 import { categoryKeySchema } from "~/schemas/post"
 import { useFavoritesResource } from "~/stores/favorites"
@@ -59,14 +58,19 @@ const Gallery = () => {
                             rel="noopener noreferrer"
                             className={"b-foreground b-2 b-rd-2 overflow-hidden"}
                         >
-                            <ImageFallback
-                                src={post.sample.url ?? `https://static1.e621.net/data/sample/${post.file.md5.slice(0, 2)}/${post.file.md5.slice(2, 4)}/${post.file.md5}.jpg`}
-                                fallbackSrc={`https://static1.e621.net/data/${post.file.md5.slice(0, 2)}/${post.file.md5.slice(2, 4)}/${post.file.md5}.${post.file.ext}`}
-                                alt={post.id.toString()}
-                                width={post.sample.width / (post.sample.width / 200)}
-                                height={post.sample.height / (post.sample.width / 200)}
-                                className="w-full"
-                            />
+                            <object
+                                data={post.sample.url ?? `https://static1.e621.net/data/sample/${post.file.md5.slice(0, 2)}/${post.file.md5.slice(2, 4)}/${post.file.md5}.jpg`}
+                                className={"w-full"}
+                            >
+                                <object
+                                    data={`https://static1.e621.net/data/${post.file.md5.slice(0, 2)}/${post.file.md5.slice(2, 4)}/${post.file.md5}.${post.file.ext}`}
+                                    className={"w-full"}
+                                >
+                                    <div className={"aspect-square bg-white c-background flex justify-center items-center"}>
+                                        <span className={"i-carbon:no-image text-6xl filter-brightness-300"} />
+                                    </div>
+                                </object>
+                            </object>
                         </a>
                     </div>
                 ))}
