@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import React from "react"
 import { z } from "zod"
 import "~/app/global.css"
@@ -16,6 +17,7 @@ const RootLayout = (props: RootLayoutProps) => {
         <html lang="en">
             <body className="font-sans bg-background c-foreground grid justify-center min-h-100dvh">
                 {props.children}
+                <Analytics />
             </body>
         </html>
     )
