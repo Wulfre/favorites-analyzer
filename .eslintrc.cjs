@@ -12,6 +12,7 @@ const eslintConfig = {
         "promise",
         "unicorn",
         "sonarjs",
+        "@unocss"
     ],
     extends: [
         "next/core-web-vitals",
