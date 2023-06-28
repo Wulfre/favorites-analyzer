@@ -48,7 +48,7 @@ const Gallery = () => {
     return (
         <>
             {/* TODO -- remove this pre element when finished debugging */}
-            <pre className="whitespace-pre-wrap">{JSON.stringify(mapToArray(scoredTags), undefined, 4)}</pre>
+            <pre className="whitespace-pre-wrap bg-black p-2 max-h-66dvh overflow-auto">{JSON.stringify(mapToArray(scoredTags), undefined, 4)}</pre>
             <div data-id={"gallery"} className={"grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-6"}>
                 {favoritesResource.value?.map(post => (
                     <div key={post.id} className="flex flex-col justify-center">
