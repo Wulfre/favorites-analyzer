@@ -1,5 +1,5 @@
-import Form from "~/app/(components)/form"
-import Gallery from "~/app/(components)/gallery"
+import Form from "./(form)/Form"
+import Gallery from "./(gallery)/Gallery"
 
 const IndexPage = async () => {
     return (

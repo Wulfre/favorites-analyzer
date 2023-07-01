@@ -1,8 +1,12 @@
-import { memo } from "react"
-import FallbackImage from "~/app/(components)/fallback-img"
+import { FunctionComponent, memo } from "react"
+import FallbackImage from "./_FallbackImage"
 import { type Post } from "~/schemas/post"
 
-const GalleryPost = ({post}: {post: Post}) => {
+type GalleryItemProps = {
+    post: Post
+}
+
+const GalleryItem: FunctionComponent<GalleryItemProps> = ({post}) => {
     return (
         <div data-id={"gallery-post"} className="flex flex-col justify-center">
             <a
@@ -28,4 +32,4 @@ const GalleryPost = ({post}: {post: Post}) => {
     )
 }
 
-export default memo(GalleryPost)
+export default memo(GalleryItem)

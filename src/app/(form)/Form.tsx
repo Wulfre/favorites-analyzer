@@ -1,27 +1,11 @@
 "use client"
 
-import {ChangeEvent} from "react"
+import { type FunctionComponent } from "react"
+import InputField from "./_InputField"
 import { useFavoritesResource, useUserResource } from "~/stores/favorites"
 import { useFormStore } from "~/stores/form"
 
-type InputFieldProps = {
-    label: string;
-    value: string | number;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-}
-
-const InputField = ({ label, value, onChange }: InputFieldProps) => (
-    <div className="flex flex-col">
-        <span>{label}</span>
-        <input
-            className={"bg-foreground c-background p-2 b-white b-2 b-rd-2 outline-none text-center focus:outline-blue"}
-            value={value}
-            onChange={onChange}
-        />
-    </div>
-)
-
-const Form = () => {
+const Form: FunctionComponent = () => {
     const { username, setUsername, limit, setLimit } = useFormStore()
     const posts = useFavoritesResource()
     const user = useUserResource()

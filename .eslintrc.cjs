@@ -69,7 +69,25 @@ const eslintConfig = {
         "unicorn/no-array-reduce": ["off"], // has its uses
         // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prevent-abbreviations.md
         "unicorn/prevent-abbreviations": ["off"], // some abbreviations are standard practice
-    }
+    },
+    overrides: [
+        {
+            files: ["*.jsx", "*.tsx"],
+            rules: {
+                // https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/filename-case.md
+                "unicorn/filename-case": ["error", {
+                    "cases": {
+                        "pascalCase": true
+                    },
+                    "ignore": [
+                        "layout.(jsx|tsx)",
+                        "page.(jsx|tsx)",
+                        "loading.(jsx|tsx)",
+                    ]
+                }],
+            }
+        }
+    ]
 }
 
 module.exports = eslintConfig

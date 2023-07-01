@@ -1,11 +1,11 @@
-import {type ImgHTMLAttributes, type ReactElement, useState } from "react"
+import {type FunctionComponent, type ImgHTMLAttributes, type ReactElement, useState } from "react"
 
 type FallbackImageProps = {
     srcList: string[]
     fallback?: ReactElement
 } & ImgHTMLAttributes<HTMLImageElement>
 
-const FallbackImage = ({srcList, fallback, ...props}: FallbackImageProps) => {
+const FallbackImage: FunctionComponent<FallbackImageProps> = ({srcList, fallback, ...props}) => {
     const [imgSrcIndex, setImgSrcIndex] = useState(0)
 
     if (imgSrcIndex >= srcList.length) {
