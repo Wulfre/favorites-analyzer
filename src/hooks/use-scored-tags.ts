@@ -1,4 +1,4 @@
-import {useMemo} from "react"
+import { useMemo } from "react"
 import { categoryKeySchema } from "~/schemas/post"
 import { type Post } from "~/schemas/post"
 
@@ -19,7 +19,7 @@ const normalizeScores = (scoresMap: Map<string, Map<string, number>>): Map<strin
     return scoresMap
 }
 
-export const useScoredTags = (favorites: Post[]): Map<string, Map<string, number>> => {
+const useScoredTags = (favorites: Post[]): Map<string, Map<string, number>> => {
     return useMemo(() => {
         if (!favorites || favorites.length === 0) {
             return new Map<string, Map<string, number>>()
@@ -45,3 +45,5 @@ export const useScoredTags = (favorites: Post[]): Map<string, Map<string, number
         return normalizeScores(scoredTags)
     }, [favorites])
 }
+
+export { useScoredTags }
