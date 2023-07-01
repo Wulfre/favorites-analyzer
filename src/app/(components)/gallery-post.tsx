@@ -1,5 +1,5 @@
 import { memo } from "react"
-import { Img } from "react-image"
+import FallbackImage from "~/app/(components)/fallback-img"
 import { type Post } from "~/schemas/post"
 
 const GalleryPost = ({post}: {post: Post}) => {
@@ -11,16 +11,17 @@ const GalleryPost = ({post}: {post: Post}) => {
                 rel="noopener noreferrer"
                 className={"b-foreground b-2 b-rd-2 overflow-hidden"}
             >
-                <Img
-                    src={[
+                <FallbackImage
+                    srcList={[
                         `https://static1.e621.net/data/sample/${post.file.md5.slice(0, 2)}/${post.file.md5.slice(2, 4)}/${post.file.md5}.jpg`,
                         `https://static1.e621.net/data/${post.file.md5.slice(0, 2)}/${post.file.md5.slice(2, 4)}/${post.file.md5}.${post.file.ext}`
                     ]}
-                    unloader={
+                    fallback={
                         <div className={"aspect-square bg-white c-background flex justify-center items-center"}>
                             <span className={"i-carbon:no-image text-6xl filter-brightness-300"} />
                         </div>
                     }
+                    loading="lazy"
                 />
             </a>
         </div>

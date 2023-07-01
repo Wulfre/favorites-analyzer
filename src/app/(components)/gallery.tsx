@@ -1,7 +1,7 @@
 "use client"
 
 import GalleryPost from "./gallery-post"
-import Loader from "~/components/loader"
+import Loader from "~/app/(components)/loader"
 import { useScoredTags } from "~/hooks/use-scored-tags"
 import { useFavoritesResource } from "~/stores/favorites"
 import { mapToArray } from "~/utils/map-to-array"

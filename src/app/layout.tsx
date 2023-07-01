@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/react"
 import React from "react"
 import { z } from "zod"
-import "~/app/global.css"
+import "~/app/globals.css"
 
 const metadata = {
     title: "Favorites Analyzer",

@@ -27,6 +27,9 @@ const eslintConfig = {
         "plugin:sonarjs/recommended",
     ],
     rules: {
+        // https://nextjs.org/docs/messages/no-img-element
+        "@next/next/no-img-element": ["off"], // nextjs image component can cost money to use
+
         // https://typescript-eslint.io/rules/semi
         "semi": ["off"], // prevent typescript conflict
         "@typescript-eslint/semi": ["warn", "never"],
