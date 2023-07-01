@@ -48,11 +48,15 @@ const eslintConfig = {
         "import/order": ["warn", { "alphabetize": { "order": "asc", "caseInsensitive": true }, }],
         // https://github.com/un-es/eslint-plugin-i/blob/fork-release/docs/rules/consistent-type-specifier-style.md
         "import/consistent-type-specifier-style": ["warn", "prefer-inline"],
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-relative-packages.md
+        "import/no-relative-packages": ["warn"],
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-missing-import.md
         "n/no-missing-import": ["off"], // seems to be broken when using typescript paths
 
         // https://github.com/un-es/eslint-plugin-i/blob/fork-release/docs/rules/exports-last.md
         "import/exports-last": ["warn"],
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/group-exports.md
+        "import/group-exports": ["warn"],
         // https://github.com/jrdrg/eslint-plugin-sort-exports
         "sort-exports/sort-exports": ["warn", { "sortDir": "asc", "ignoreCase": true, "sortExportKindFirst": "value" }],
         // https://github.com/un-es/eslint-plugin-i/blob/fork-release/docs/rules/no-mutable-exports.md
