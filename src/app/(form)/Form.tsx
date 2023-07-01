@@ -29,7 +29,7 @@ const Form: FunctionComponent = () => {
                     onChange={(event) => setLimit(Number(event.target.value))}
                 />
             </div>
-            <button className={"p-2 m-t-6 b-foreground b-2 b-rd-2"} onClick={handleSubmit}>
+            <button className={"p-2 b-foreground b-2 b-rd-2"} onClick={handleSubmit}>
                 Go
             </button>
         </>
