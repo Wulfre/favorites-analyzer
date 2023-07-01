@@ -1,6 +1,7 @@
 import { getFavoritePosts, getUser } from "~/actions/e621-client"
 import { useFormStore } from "~/stores/form"
 import { createResource } from "~/utils/resource"
+import { create } from "zustand"
 
 const useUserResource = createResource(async () => {
     const { username } = useFormStore.getState()
