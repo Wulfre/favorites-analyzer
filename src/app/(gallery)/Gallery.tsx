@@ -9,7 +9,7 @@ import { mapToArray } from "~/utils/map-to-array"
 
 const Gallery: FunctionComponent = () => {
     const favoritesResource = useFavoritesResource()
-    const scoredTags = useScoredTags(favoritesResource.value ?? [])
+    const scoredTags = useScoredTags(favoritesResource.value)
 
     // render loader if the favorites resource is is not finsihed loading
     if (favoritesResource.loading) {
@@ -17,7 +17,7 @@ const Gallery: FunctionComponent = () => {
     }
 
     // return early if the favorites resource is empty
-    if (favoritesResource.value === undefined || favoritesResource.value.length === 0) {
+    if (favoritesResource.value.length === 0) {
         return
     }
 

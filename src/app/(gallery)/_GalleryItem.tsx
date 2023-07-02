@@ -1,6 +1,6 @@
 import { FunctionComponent, memo } from "react"
 import FallbackImage from "./_FallbackImage"
-import { type Post } from "~/schemas/post"
+import { Post } from "~/schemas/post"
 
 type GalleryItemProps = {
     post: Post
@@ -25,6 +25,7 @@ const GalleryItem: FunctionComponent<GalleryItemProps> = ({post}) => {
                             <span className={"i-carbon:no-image text-6xl filter-brightness-300"} />
                         </div>
                     }
+                    alt={`Post #${post.id}`}
                     loading="lazy"
                 />
             </a>

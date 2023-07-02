@@ -1,32 +1,28 @@
-import { castDraft } from "immer"
 import { create } from "zustand"
-import { immer } from "zustand/middleware/immer"
 
-function createResource<T>(fetcher: () => Promise<T>) {
+function createResource<T>(fetcher: () => Promise<T>, initialValue: T) {
     type ResourceState = {
-        value?: T
+        value: T
+        error?: Error
         loading: boolean
-        set: (value: T) => void
         fetch: () => Promise<void>
     }
 
-    return create(immer<ResourceState>((set) => ({
-        value: undefined,
+    return create<ResourceState>((set) => ({
+        value: initialValue,
+        error: undefined,
         loading: false,
-        set: (value) => {
-            set((state) => { state.value = castDraft<T>(value) })
-        },
         fetch: async () => {
-            set((state) => { state.loading = true })
-
-            const value = await fetcher()
-
-            set((state) => {
-                state.value = castDraft<T>(value)
-                state.loading = false
-            })
+            set(() => ({ loading: true }))
+            try {
+                const value = await fetcher()
+                set(() => ({ value: value, loading: false }))
+            }
+            catch (error) {
+                set(() => ({ error: error instanceof Error ? error : new Error(String(error)), loading: false }))
+            }
         }
-    })))
+    }))
 }
 
 export { createResource }

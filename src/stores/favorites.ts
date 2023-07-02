@@ -10,7 +10,7 @@ const useUserResource = createResource(async () => {
     }
 
     return getUser(username)
-})
+}, Object.create(null))
 
 const useFavoritesResource = createResource(async () => {
     const { value } = useUserResource.getState()
@@ -20,6 +20,6 @@ const useFavoritesResource = createResource(async () => {
     }
 
     return getFavoritePosts(value.id.toString(), value.favorite_count)
-})
+}, [])
 
 export { useFavoritesResource, useUserResource }

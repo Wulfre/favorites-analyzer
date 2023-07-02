@@ -1,6 +1,5 @@
 import { useMemo } from "react"
-import { categoryKeySchema } from "~/schemas/post"
-import { type Post } from "~/schemas/post"
+import { Post , categoryKeySchema } from "~/schemas/post"
 
 const normalizeScores = (scoresMap: Map<string, Map<string, number>>): Map<string, Map<string, number>> => {
     for (const [category, tags] of scoresMap) {

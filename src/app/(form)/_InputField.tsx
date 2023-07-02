@@ -1,4 +1,4 @@
-import {type ChangeEvent, type FunctionComponent} from "react"
+import { ChangeEvent, FunctionComponent} from "react"
 
 type InputFieldProps = {
     label: string;
