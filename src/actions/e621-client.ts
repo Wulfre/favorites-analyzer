@@ -1,6 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable unicorn/prevent-abbreviations */
-
 "use server"
 
 import { z } from "zod"
