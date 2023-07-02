@@ -7,12 +7,12 @@ import { useFormStore } from "~/stores/form"
 
 const Form: FunctionComponent = () => {
     const { username, limit } = useFormStore()
-    const posts = useFavoritesResource()
     const user = useUserResource()
+    const posts = useFavoritesResource()
 
     const handleSubmit = async () => {
         await user.fetch()
-        posts.fetch()
+        await posts.fetch()
     }
 
     return (
