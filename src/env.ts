@@ -1,6 +1,12 @@
 // src/env.mjs
+import { loadEnvConfig } from "@next/env"
 import { createEnv } from "@t3-oss/env-nextjs"
 import { z } from "zod"
+
+// If we are trying to use env variables outside of the Next.js runtime, we need to load the env manually.
+if (!process.env.__NEXT_PROCESSED_ENV) {
+    loadEnvConfig(process.cwd())
+}
 
 export const env = createEnv({
     // Server environment schema. Build will fail if accessed on the client.
@@ -9,7 +15,6 @@ export const env = createEnv({
         DATABASE_USERNAME: z.string(),
         DATABASE_PASSWORD: z.string(),
         DATABASE_NAME: z.string(),
-        DATABASE_PORT: z.number(),
     },
     // Client environment schema. These will have type errors if not prefixed with NEXT_PUBLIC_.
     client: {},
@@ -19,6 +24,5 @@ export const env = createEnv({
         DATABASE_USERNAME: process.env.DATABASE_USERNAME,
         DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
         DATABASE_NAME: process.env.DATABASE_NAME,
-        DATABASE_PORT: process.env.DATABASE_PORT,
     },
 })
