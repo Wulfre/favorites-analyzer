@@ -1,9 +1,9 @@
-import { ChangeEvent, FunctionComponent} from "react"
+import type { ChangeEvent, FunctionComponent } from "react"
 
 type InputFieldProps = {
-    label: string;
-    value: string | number;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    label: string,
+    value: string | number,
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void,
 }
 
 const InputField: FunctionComponent<InputFieldProps> = ({ label, value, onChange }) => (

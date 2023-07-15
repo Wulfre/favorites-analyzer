@@ -4,7 +4,7 @@ import { createEnv } from "@t3-oss/env-nextjs"
 import { z } from "zod"
 
 // If we are trying to use env variables outside of the Next.js runtime, we need to load the env manually.
-if (!process.env.__NEXT_PROCESSED_ENV) {
+if (process.env.__NEXT_PROCESSED_ENV === undefined) {
     loadEnvConfig(process.cwd())
 }
 

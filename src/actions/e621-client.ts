@@ -1,9 +1,12 @@
 "use server"
 
 import { z } from "zod"
-import { type Post, postSchema } from "~/schemas/post"
-import { type Tag, tagSchema } from "~/schemas/tag"
-import { type User, userSchema } from "~/schemas/user"
+import type { Post } from "~/schemas/post"
+import { postSchema } from "~/schemas/post"
+import type { Tag } from "~/schemas/tag"
+import { tagSchema } from "~/schemas/tag"
+import type { User } from "~/schemas/user"
+import { userSchema } from "~/schemas/user"
 
 const client = encodeURIComponent("Favorites Analyzer/0.1 (by Wulfre)")
 
@@ -25,13 +28,11 @@ const getFavoritePosts = async (userId: string, favoriteCount: number): Promise<
     const limit = 320
     const pages = Math.ceil(favoriteCount / limit)
 
-    const requests = Array.from({ length: pages }, (_, index) =>
-        fetch(`https://e621.net/favorites.json?user_id=${encodeURIComponent(userId)}&limit=${limit}&page=${index + 1}&_client=${client}`, {
-            cache: "no-store"
-        })
-            .then((response) => response.json())
-            .then((response) => favoritesResponseSchema.parse(response).posts)
-    )
+    const requests = Array.from({ length: pages }, async (_, index) => fetch(`https://e621.net/favorites.json?user_id=${encodeURIComponent(userId)}&limit=${limit}&page=${index + 1}&_client=${client}`, {
+        cache: "no-store",
+    })
+        .then(async (response) => response.json())
+        .then((response) => favoritesResponseSchema.parse(response).posts))
 
     const responses = await Promise.all(requests)
     return responses.flat().filter((post) => !post.flags.deleted)

@@ -1,21 +1,18 @@
 import { getFavoritePosts, getUser } from "~/actions/e621-client"
+import type { Post } from "~/schemas/post"
+import type { User } from "~/schemas/user"
 import { useFormStore } from "~/stores/form"
 import { createResource } from "~/utils/resource"
 
-const useUserResource = createResource(async () => {
+const useUserResource = createResource<User>(async () => {
     const { username } = useFormStore.getState()
-
-    if (!username) {
-        throw new Error("no username in store")
-    }
-
     return getUser(username)
-}, Object.create(null))
+})
 
-const useFavoritesResource = createResource(async () => {
+const useFavoritesResource = createResource<Post[]>(async () => {
     const { value } = useUserResource.getState()
 
-    if (!value) {
+    if (value === undefined) {
         throw new Error("no user in store")
     }
 

@@ -8,6 +8,6 @@ const connection = connect({
     password: env.DATABASE_PASSWORD,
 })
 
-const db = drizzle(connection)
+const database = drizzle(connection)
 
-export { db }
+export { database }

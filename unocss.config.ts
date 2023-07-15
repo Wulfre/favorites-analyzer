@@ -8,8 +8,8 @@ const unocssConfig = defineConfig({
             provider: "google",
             fonts: {
                 sans: "Atkinson Hyperlegible",
-                mono: "Source Code Pro"
-            }
+                mono: "Source Code Pro",
+            },
         }),
     ],
     theme: {

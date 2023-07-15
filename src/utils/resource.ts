@@ -1,14 +1,15 @@
+import type { StoreApi, UseBoundStore } from "zustand"
 import { create } from "zustand"
 
-function createResource<T>(fetcher: () => Promise<T>, initialValue: T) {
-    type ResourceState = {
-        value: T
-        error?: Error
-        loading: boolean
-        fetch: () => Promise<void>
-    }
+type ResourceState<T> = {
+    value?: T,
+    error?: Error,
+    loading: boolean,
+    fetch: () => Promise<void>,
+}
 
-    return create<ResourceState>((set) => ({
+const createResource = <T>(fetcher: () => Promise<T>, initialValue?: T): UseBoundStore<StoreApi<ResourceState<T>>> => (
+    create<ResourceState<T>>((set) => ({
         value: initialValue,
         error: undefined,
         loading: false,
@@ -17,12 +18,11 @@ function createResource<T>(fetcher: () => Promise<T>, initialValue: T) {
             try {
                 const value = await fetcher()
                 set(() => ({ value: value, loading: false }))
-            }
-            catch (error) {
+            } catch (error) {
                 set(() => ({ error: error instanceof Error ? error : new Error(String(error)), loading: false }))
             }
-        }
+        },
     }))
-}
+)
 
 export { createResource }
