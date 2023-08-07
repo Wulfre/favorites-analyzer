@@ -34,7 +34,7 @@
         "@unocss/postcss": "^0.53.5",
         "drizzle-kit": "^0.19.5",
         "eslint": "8.45.0",
-        "eslint-config-next": "13.4.10",
+        "eslint-config-next": "13.4.13",
         "eslint-import-resolver-typescript": "^3.5.5",
         "eslint-plugin-eslint-comments": "^3.2.0",
         "eslint-plugin-functional": "^5.0.8",
