@@ -8,9 +8,10 @@ const IndexPage: FunctionComponent = () => {
 
     return (
         <main className={"p-y-4"} data-testid={"index"}>
-            <input type="text" value={$user.state.name} onInput={(event) => {
-                $user.actions.setName(event.currentTarget.value)
-            }}
+            <input
+                onInput={(event) => { $user.actions.setName(event.currentTarget.value) }}
+                type="text"
+                value={$user.state.name}
             />
             <p>{$user.state.name}</p>
         </main>

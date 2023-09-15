@@ -9,15 +9,15 @@ type UserActions = {
 }
 
 type UserStore = {
-    state: UserState
     actions: UserActions
+    state: UserState
 }
 
 export const useUserStore = create<UserStore>((set) => ({
+    actions: {
+        setName: (name: string) => { set({ state: { name: name } }) },
+    },
     state: {
         name: "",
     },
-    actions: {
-        setName: (name: string) => set({ state: { name } })
-    }
 }))
