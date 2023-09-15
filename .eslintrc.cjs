@@ -1,5 +1,10 @@
-const eslintConfig = {
+/* eslint-disable  eslint-comments/disable-enable-pair, perfectionist/sort-objects -- this file has an order to rules */
+
+const config = {
     root: true,
+    env: {
+        es2024: true,
+    },
     parser: "@typescript-eslint/parser",
     parserOptions: {
         sourceType: "module",
@@ -13,43 +18,51 @@ const eslintConfig = {
         "import/resolver": {
             typescript: {
                 alwaysTryTypes: true,
-                project: ["./tsconfig.json", "./packages/*/tsconfig.json"],
+                project: ["./tsconfig.json"],
             },
         },
     },
     plugins: [
-        "only-warn", // all broken rules are reported as warnings rahter than errors, regardless of configuration
+        "only-warn", // all broken rules are reported as warnings rather than errors, regardless of configuration
         "@typescript-eslint",
         "eslint-comments",
-        "functional",
         "import",
         "n",
+        "perfectionist",
         "prefer-arrow-functions",
         "promise",
-        "simple-import-sort",
         "sonarjs",
         "unicorn",
     ],
     extends: [
-        "next/core-web-vitals",
         "eslint:recommended",
         "plugin:@typescript-eslint/strict-type-checked",
         "plugin:@typescript-eslint/stylistic-type-checked",
         "plugin:eslint-comments/recommended",
-        // "plugin:functional/lite", // broken for now: https://github.com/eslint-functional/eslint-plugin-functional/issues/678
         "plugin:import/recommended",
         "plugin:import/typescript",
         "plugin:n/recommended",
+        "plugin:perfectionist/recommended-natural",
         "plugin:promise/recommended",
         "plugin:sonarjs/recommended",
         "plugin:unicorn/recommended",
+        "next/core-web-vitals",
     ],
     rules: {
         // ✨ DISABLE EXTENDED RULES
         "n/no-missing-import": ["off"], // taken care of by import/no-unresolved
         "unicorn/no-array-reduce": ["off"], // useful for functional programming
+        "unicorn/no-array-for-each": ["off"], // useful for functional programming
         "unicorn/no-useless-undefined": ["off"], // it is preferred to be explicit when using undefined
         "unicorn/prevent-abbreviations": ["off"], // some abbreviations are standard practice
+        "@typescript-eslint/require-await": ["off"], // promises do not always need to await something
+
+        // ✨ DISABLE CONFLICTING RULES
+        "sort-imports": ["off"], // conflicts with perfectionist/sort-imports
+        "import/order": ["off"], // conflicts with perfectionist/sort-imports
+        "sort-keys": ["off"], // conflicts with perfectionist/sort-objects
+        "@typescript-eslint/adjacent-overload-signatures": ["off"], // conflicts with perfectionist/sort-object-types
+        "@typescript-eslint/sort-type-constituents": ["off"], // conflicts with perfectionist/sort-union-types
 
         // ✨ ESLINT COMMENTS RULES
         "eslint-comments/no-unused-disable": ["warn"],
@@ -73,9 +86,10 @@ const eslintConfig = {
         "curly": ["warn", "all"], // require braces around all blocks, even single statement blocks
         "dot-location": ["warn", "property"],
         "function-call-argument-newline": ["warn", "consistent"],
-        "function-paren-newline": ["warn", "multiline"],
+        "function-paren-newline": ["warn", "multiline-arguments"],
+        "generator-star-spacing": ["warn", "after"],
         "implicit-arrow-linebreak": ["warn", "beside"],
-        "max-statements-per-line": ["warn", { max: 1 }],
+        "max-statements-per-line": ["warn", { max: 2 }],
         "multiline-ternary": ["warn", "always-multiline"],
         "new-parens": ["warn", "always"],
         "newline-per-chained-call": ["warn", { ignoreChainWithDepth: 3 }],
@@ -99,6 +113,7 @@ const eslintConfig = {
         "template-curly-spacing": ["warn", "never"],
         "template-tag-spacing": ["warn", "never"],
         "wrap-regex": ["warn"],
+        "yield-star-spacing": ["warn", "after"],
 
         // ✨ CORE RULES - STYLE - TYPESCRIPT OVERLAP
         "block-spacing": ["off"],
@@ -179,28 +194,33 @@ const eslintConfig = {
         "@typescript-eslint/init-declarations": ["warn"],
         "no-use-before-define": ["off"],
         "@typescript-eslint/no-use-before-define": ["warn"],
+        "no-unused-vars": ["off"],
+        "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
 
         // ✨ TYPESCRIPT RULES - STYLE
-        "@typescript-eslint/member-delimiter-style": ["warn", { multiline: { delimiter: "comma" } }],
+        "@typescript-eslint/member-delimiter-style": ["warn", { multiline: { delimiter: "none" } }],
         "@typescript-eslint/type-annotation-spacing": ["warn", { before: false, after: true, overrides: { arrow: { before: true, after: true } } }],
+        "@typescript-eslint/array-type": ["warn", { default: "array-simple" }],
 
         // ✨ TYPESCRIPT RULES - LOGIC
         "@typescript-eslint/strict-boolean-expressions": ["warn"],
+        "@typescript-eslint/no-misused-promises": ["warn", { checksVoidReturn: false }], // allow passing promise<void> to a function that expects void
 
         // ✨ TYPESCRIPT RULES - BEST PRACTICES
         "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
         "@typescript-eslint/consistent-type-imports": ["warn", { prefer: "type-imports", fixStyle: "separate-type-imports" }],
-        "@typescript-eslint/explicit-function-return-type": ["warn", { allowExpressions: true }],
         "@typescript-eslint/no-unnecessary-qualifier": ["warn"],
         "@typescript-eslint/no-useless-empty-export": ["warn"],
         "@typescript-eslint/promise-function-async": ["warn"],
         "@typescript-eslint/switch-exhaustiveness-check": ["warn"],
 
+        // ✨ UNICORN RULES - BEST PRACTICES
+        "unicorn/prefer-at": ["warn", { checkAllIndexAccess: true }],
+
         // ✨ IMPORT RULES - STYLE
         "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
         "import/exports-last": ["warn"],
         "import/first": ["warn"],
-        "import/group-exports": ["warn"],
         "import/newline-after-import": ["warn"],
 
         // ✨ IMPORT RULES - LOGIC
@@ -215,33 +235,112 @@ const eslintConfig = {
         "import/no-empty-named-blocks": ["warn"],
         "import/no-self-import": ["warn"],
 
-        // ✨ SIMPLE IMPORT SORT RULES
-        "sort-imports": ["off"],
-        "import/order": ["off"],
-        "simple-import-sort/exports": ["warn"],
-        "simple-import-sort/imports": ["warn", { groups: [["^\\u0000", "^node:", "^@?\\w", "^", "^\\."]] }],
-
-        // ✨ PREFERS ARROW FUNCTIONS RULES
+        // ✨ PREFER ARROW FUNCTIONS RULES
         "prefer-arrow-functions/prefer-arrow-functions": ["warn", { singleReturnOnly: false, returnStyle: "implicit" }],
+
+        // ✨ PERFECTIONIST SORTING RULES
+        "perfectionist/sort-array-includes": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-classes": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+            "groups": [
+                "static-property",
+                "private-property",
+                "property",
+                "constructor",
+                "static-method",
+                "private-method",
+                "method",
+                "unknown",
+            ],
+        }],
+        "perfectionist/sort-enums": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-exports": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-imports": ["warn", {
+            "type": "natural",
+            "newlines-between": "never",
+            "groups": [
+                "type",
+                ["builtin", "external"],
+                "internal-type",
+                "internal",
+                ["parent-type", "sibling-type", "index-type"],
+                ["parent", "sibling", "index"],
+                "object",
+                "unknown",
+            ],
+        }],
+        "perfectionist/sort-interfaces": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-maps": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-named-exports": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-named-imports": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-object-types": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-objects": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+        }],
+        "perfectionist/sort-union-types": ["warn", {
+            "type": "natural",
+            "ignore-case": true,
+            "nullable-last": true,
+        }],
     },
     overrides: [
         {
             // ✨ ENABLE RULES SPECIFIC TO JSX FILES
             files: ["*.jsx", "*.tsx"],
             rules: {
+                // ✨ DISABLE CONFLICTING RULES
+                "react/jsx-sort-props": ["off"], // conflicts with perfectionist/sort-jsx-props
+
                 // ✨ UNICORN RULES - FILE ENCODING
                 "unicorn/filename-case": ["warn", {
                     case: "pascalCase",
                     ignore: [
+                        // NextJS Special Names
                         "layout.(jsx|tsx)",
                         "page.(jsx|tsx)",
-                        "loading.(jsx|tsx)",
+                        // SolidStart Special Names
+                        "entry-client.(jsx|tsx)",
+                        "entry-server.(jsx|tsx)",
+                        "index.(jsx|tsx)",
+                        "root.(jsx|tsx)",
                     ],
                 }],
 
                 // ✨ JSX RULES - STYLE
 
                 // ✨ JSX RULES - LOGIC
+
+                // ✨ PERFECTIONIST SORTING RULES
+                "perfectionist/sort-jsx-props": ["warn", {
+                    "type": "natural",
+                    "ignore-case": true,
+                }],
             },
         },
         {
@@ -252,4 +351,4 @@ const eslintConfig = {
     ],
 }
 
-module.exports = eslintConfig
+module.exports = config

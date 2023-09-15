@@ -1,12 +1,20 @@
-import type { FunctionComponent } from "react"
-import Form from "./(form)/Form"
-import Gallery from "./(gallery)/Gallery"
+"use client"
 
-const IndexPage: FunctionComponent = () => (
-    <main data-id={"index"} className={"flex flex-col gap-6 p-6 max-w-1200px w-100dvw"}>
-        <Form />
-        <Gallery/>
-    </main>
-)
+import type { FunctionComponent } from "react"
+import { useUserStore } from "~/stores/user"
+
+const IndexPage: FunctionComponent = () => {
+    const $user = useUserStore()
+
+    return (
+        <main className={"p-y-4"} data-testid={"index"}>
+            <input type="text" value={$user.state.name} onInput={(event) => {
+                $user.actions.setName(event.currentTarget.value)
+            }}
+            />
+            <p>{$user.state.name}</p>
+        </main>
+    )
+}
 
 export default IndexPage
