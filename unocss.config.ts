@@ -15,10 +15,10 @@ const unocssConfig = defineConfig({
     theme: {
         colors: {
             background: "#1a1b26",
-            foreground: "#c0caf5",
             black: "#15161e",
             blue: "#7aa2f7",
             cyan: "#7dcfff",
+            foreground: "#c0caf5",
             green: "#9ece6a",
             magenta: "#bb9af7",
             red: "#f7768e",
