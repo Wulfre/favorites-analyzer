@@ -32,7 +32,7 @@
         "@types/react-dom": "18.2.7",
         "@typescript-eslint/eslint-plugin": "^6.6.0",
         "@typescript-eslint/parser": "^6.6.0",
-        "@unocss/eslint-config": "^0.53.5",
+        "@unocss/eslint-config": "^0.55.7",
         "@unocss/postcss": "^0.53.5",
         "eslint": "8.48.0",
         "eslint-config-next": "13.4.19",
