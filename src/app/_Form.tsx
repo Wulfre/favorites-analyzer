@@ -15,8 +15,6 @@ const Form: FunctionComponent = () => (
             onInput={(event) => { $username.set(event.currentTarget.value) }}
             type="text"
             value={$username.use()} />
-        <span>{$username.use()}</span>
-        <Show if={$user.state.error.use()}><span className={"c-red"}>{$user.state.error.use()}</span></Show>
         <button
             className="bg-blue c-black b-rd-1 h-4ch"
             disabled={$user.state.loading.use()}
@@ -24,6 +22,7 @@ const Form: FunctionComponent = () => (
         >
             Go
         </button>
+        <Show if={$user.state.error.use()}><span className={"c-red"}>{$user.state.error.use()}</span></Show>
         <Show if={$user.state.data.use()}>
             <pre className="ws-pre-wrap">{JSON.stringify($user.state.use(), undefined, 4)}</pre>
         </Show>
