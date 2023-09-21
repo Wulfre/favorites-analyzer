@@ -6,8 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "deps": "bunx taze",
-        "env:pull": "bunx vercel env pull"
+        "env:pull": "vercel env pull"
     },
     "dependencies": {
         "@fxts/core": "^0.20.0",
@@ -18,7 +17,9 @@
         "next": "13.5.2",
         "react": "18.2.0",
         "react-dom": "18.2.0",
+        "taze": "^0.11.2",
         "ts-pattern": "^5.0.5",
+        "vercel": "^32.3.0",
         "zod": "^3.22.2"
     },
     "devDependencies": {
@@ -33,8 +34,8 @@
         "@types/react-dom": "18.2.7",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
         "@typescript-eslint/parser": "^6.7.2",
-        "@unocss/eslint-config": "^0.56.0",
-        "@unocss/postcss": "^0.56.0",
+        "@unocss/eslint-config": "^0.56.1",
+        "@unocss/postcss": "^0.56.1",
         "eslint": "8.49.0",
         "eslint-config-next": "13.5.2",
         "eslint-import-resolver-typescript": "^3.6.0",
@@ -49,6 +50,6 @@
         "eslint-plugin-unicorn": "^48.0.1",
         "postcss": "^8.4.30",
         "typescript": "5.2.2",
-        "unocss": "^0.56.0"
+        "unocss": "^0.56.1"
     }
 }
