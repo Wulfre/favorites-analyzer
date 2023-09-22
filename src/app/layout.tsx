@@ -8,12 +8,12 @@ type Props = {
 }
 
 const RootLayout: FunctionComponent<Props> = (props) => (
-    <html lang="en">
-        <body className="font-sans bg-background c-foreground min-h-100dvh max-w-1200px m-auto">
+    <html lang={"en"}>
+        <body className={"font-sans bg-background c-foreground min-h-100dvh max-w-1200px m-auto"}>
             <LegendStateProvider>
                 {props.children}
             </LegendStateProvider>
-            <Analytics />
+            <Analytics debug={false} />
         </body>
     </html>
 )

@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const userSchema = z.object({
+export const userSchema = z.object({
     artist_version_count: z.number(),
     avatar_id: z.number().nullable(),
     base_upload_limit: z.number(),
@@ -26,6 +26,4 @@ const userSchema = z.object({
     upload_limit: z.number(),
     wiki_page_version_count: z.number(),
 })
-type User = z.infer<typeof userSchema>
-
-export { type User, userSchema }
+export type User = z.infer<typeof userSchema>

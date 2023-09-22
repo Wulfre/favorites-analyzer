@@ -1,6 +1,6 @@
 import { observable } from "@legendapp/state"
 import type { User } from "~/schemas/user"
-import { getUser } from "~/actions/get-user"
+import { getUser } from "~/actions/e621"
 
 type UserState = {
     data: User | undefined
@@ -21,7 +21,7 @@ export const $user = observable<UserStore>({
     actions: {
         fetchUser: async (username) => {
             $user.state.set({
-                data: $user.state.data.get(),
+                data: undefined,
                 error: "",
                 loading: true,
             })

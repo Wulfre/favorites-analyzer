@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const tagSchema = z.object({
+export const tagSchema = z.object({
     category: z.number(),
     created_at: z.string(),
     id: z.number(),
@@ -11,6 +11,4 @@ const tagSchema = z.object({
     related_tags_updated_at: z.string(),
     updated_at: z.string(),
 })
-type Tag = z.infer<typeof tagSchema>
-
-export { type Tag, tagSchema }
+export type Tag = z.infer<typeof tagSchema>
