@@ -1,5 +1,3 @@
-/* eslint-disable  eslint-comments/disable-enable-pair, perfectionist/sort-objects -- this file has an order to rules */
-
 const config = {
     root: true,
     env: {
@@ -33,6 +31,7 @@ const config = {
         "promise",
         "sonarjs",
         "unicorn",
+        "react",
     ],
     extends: [
         "eslint:recommended",
@@ -42,7 +41,6 @@ const config = {
         "plugin:import/recommended",
         "plugin:import/typescript",
         "plugin:n/recommended",
-        "plugin:perfectionist/recommended-natural",
         "plugin:promise/recommended",
         "plugin:sonarjs/recommended",
         "plugin:unicorn/recommended",
@@ -239,28 +237,6 @@ const config = {
         "prefer-arrow-functions/prefer-arrow-functions": ["warn", { singleReturnOnly: false, returnStyle: "implicit" }],
 
         // ✨ PERFECTIONIST SORTING RULES
-        "perfectionist/sort-array-includes": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-        }],
-        "perfectionist/sort-classes": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-            "groups": [
-                "static-property",
-                "private-property",
-                "property",
-                "constructor",
-                "static-method",
-                "private-method",
-                "method",
-                "unknown",
-            ],
-        }],
-        "perfectionist/sort-enums": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-        }],
         "perfectionist/sort-exports": ["warn", {
             "type": "natural",
             "ignore-case": true,
@@ -279,27 +255,11 @@ const config = {
                 "unknown",
             ],
         }],
-        "perfectionist/sort-interfaces": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-        }],
-        "perfectionist/sort-maps": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-        }],
         "perfectionist/sort-named-exports": ["warn", {
             "type": "natural",
             "ignore-case": true,
         }],
         "perfectionist/sort-named-imports": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-        }],
-        "perfectionist/sort-object-types": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-        }],
-        "perfectionist/sort-objects": ["warn", {
             "type": "natural",
             "ignore-case": true,
         }],
@@ -324,15 +284,11 @@ const config = {
                         // NextJS Special Names
                         "layout.(jsx|tsx)",
                         "page.(jsx|tsx)",
-                        // SolidStart Special Names
-                        "entry-client.(jsx|tsx)",
-                        "entry-server.(jsx|tsx)",
-                        "index.(jsx|tsx)",
-                        "root.(jsx|tsx)",
                     ],
                 }],
 
                 // ✨ JSX RULES - STYLE
+                "react/jsx-curly-brace-presence": ["warn", "always"],
 
                 // ✨ JSX RULES - LOGIC
 
