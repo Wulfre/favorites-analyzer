@@ -17,12 +17,17 @@ type UserStore = {
     state: UserState
 }
 
+const defaultState: UserState = {
+    data: undefined,
+    error: "",
+    loading: false,
+}
+
 export const $user = observable<UserStore>({
     actions: {
         fetchUser: async (username) => {
             $user.state.set({
-                data: undefined,
-                error: "",
+                ...defaultState,
                 loading: true,
             })
 
@@ -30,22 +35,16 @@ export const $user = observable<UserStore>({
 
             const update = user === undefined
                 ? {
-                    data: undefined,
+                    ...defaultState,
                     error: "User not found",
-                    loading: false,
                 }
                 : {
+                    ...defaultState,
                     data: user,
-                    error: "",
-                    loading: false,
                 }
 
             $user.state.set(update)
         },
     },
-    state: {
-        data: undefined,
-        error: "",
-        loading: false,
-    },
+    state: defaultState,
 })

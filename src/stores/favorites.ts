@@ -18,35 +18,34 @@ type FavoritesStore = {
     state: FavoritesState
 }
 
+const defaultState: FavoritesState = {
+    data: [],
+    error: "",
+    loading: false,
+}
+
 export const $favorites = observable<FavoritesStore>({
     actions: {
-        fetchFavorites: async (userId) => {
+        fetchFavorites: async (user) => {
             $favorites.state.set({
-                data: [],
-                error: "",
+                ...defaultState,
                 loading: true,
             })
 
-            const favorites = await getFavorites(userId)
+            const favorites = await getFavorites(user)
 
             const update = favorites === undefined
                 ? {
-                    data: [],
-                    error: "No favorites found",
-                    loading: false,
+                    ...defaultState,
+                    error: "Failed to fetch favorites",
                 }
                 : {
+                    ...defaultState,
                     data: favorites,
-                    error: "",
-                    loading: false,
                 }
 
             $favorites.state.set(update)
         },
     },
-    state: {
-        data: [],
-        error: "",
-        loading: false,
-    },
+    state: defaultState,
 })
