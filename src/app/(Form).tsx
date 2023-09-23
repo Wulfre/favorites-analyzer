@@ -24,7 +24,7 @@ const Form: FunctionComponent = () => {
                 disabled={$user.state.loading.use()}
                 onClick={async () => {
                     await $user.actions.fetchUser(username)
-                    void $favorites.actions.fetchFavorites($user.state.data.id.get())
+                    void $favorites.actions.fetchFavorites($user.state.data.get())
                 }}
             >
                 {"Go"}

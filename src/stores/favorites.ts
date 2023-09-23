@@ -1,5 +1,6 @@
 import { observable } from "@legendapp/state"
 import type { Post } from "~/schemas/post"
+import type { User } from "~/schemas/user"
 import { getFavorites } from "~/actions/e621"
 
 type FavoritesState = {
@@ -9,7 +10,7 @@ type FavoritesState = {
 }
 
 type FavoritesActions = {
-    fetchFavorites: (userId: number) => Promise<void>
+    fetchFavorites: (user: User) => Promise<void>
 }
 
 type FavoritesStore = {

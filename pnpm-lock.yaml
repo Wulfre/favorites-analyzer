@@ -29,6 +29,9 @@ dependencies:
   next:
     specifier: 13.5.2
     version: 13.5.2(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
+  p-throttle:
+    specifier: ^5.1.0
+    version: 5.1.0
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -5013,6 +5016,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       aggregate-error: 3.1.0
+    dev: false
+
+  /p-throttle@5.1.0:
+    resolution: {integrity: sha512-+N+s2g01w1Zch4D0K3OpnPDqLOKmLcQ4BvIFq3JC0K29R28vUOjWpO+OJZBNt8X9i3pFCksZJZ0YXkUGjaFE6g==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
   /p-try@2.2.0:

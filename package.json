@@ -17,6 +17,7 @@
         "loglevel": "^1.8.1",
         "million": "^2.6.0",
         "next": "13.5.2",
+        "p-throttle": "^5.1.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "taze": "^0.11.2",
