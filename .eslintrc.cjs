@@ -263,17 +263,15 @@ const config = {
             "type": "natural",
             "ignore-case": true,
         }],
-        "perfectionist/sort-union-types": ["warn", {
-            "type": "natural",
-            "ignore-case": true,
-            "nullable-last": true,
-        }],
     },
     overrides: [
         {
             // ✨ ENABLE RULES SPECIFIC TO JSX FILES
             files: ["*.jsx", "*.tsx"],
             rules: {
+                // ✨ DISABLE EXTENDED RULES
+                "@next/next/no-img-element": ["off"],
+
                 // ✨ DISABLE CONFLICTING RULES
                 "react/jsx-sort-props": ["off"], // conflicts with perfectionist/sort-jsx-props
 
@@ -291,12 +289,6 @@ const config = {
                 "react/jsx-curly-brace-presence": ["warn", "always"],
 
                 // ✨ JSX RULES - LOGIC
-
-                // ✨ PERFECTIONIST SORTING RULES
-                "perfectionist/sort-jsx-props": ["warn", {
-                    "type": "natural",
-                    "ignore-case": true,
-                }],
             },
         },
         {
