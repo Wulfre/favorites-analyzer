@@ -25,9 +25,12 @@ const Gallery = () => {
                             className={"relative"}
                         >
                             <img
-                                className={"b-2 b-rd-2 b-white"}
+                                className={"b-2 b-rd-2 b-white bg-white"}
                                 data-testid={`gallery-image-${favorite.id}`}
                                 alt={""}
+                                loading={"lazy"}
+                                width={150}
+                                height={150}
                                 src={`https://static1.e621.net/data/preview/${favorite.file.md5.at(0)}${favorite.file.md5.at(1)}/${favorite.file.md5.at(2)}${favorite.file.md5.at(3)}/${favorite.file.md5}.jpg`}
                             />
                             <Show if={["webm", "gif"].includes(favorite.file.ext)}>
