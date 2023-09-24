@@ -1,12 +1,17 @@
 import { observable } from "@legendapp/state"
 import type { Post } from "~/schemas/post"
 import type { User } from "~/schemas/user"
-import { getFavorites } from "~/actions/e621"
+import { getFavoritesPage } from "~/actions/e621"
+import { pageLimit } from "~/actions/e621-config"
 
 type FavoritesState = {
     data: Post[]
     error: string
     loading: boolean
+    progress: {
+        current: number
+        total: number
+    }
 }
 
 type FavoritesActions = {
@@ -22,6 +27,10 @@ const defaultState: FavoritesState = {
     data: [],
     error: "",
     loading: false,
+    progress: {
+        current: 0,
+        total: 0,
+    },
 }
 
 export const $favorites = observable<FavoritesStore>({
@@ -32,7 +41,35 @@ export const $favorites = observable<FavoritesStore>({
                 loading: true,
             })
 
-            const favorites = await getFavorites(user)
+            const numberOfPages = Math.ceil(user.favorite_count / pageLimit)
+
+            $favorites.state.set({
+                ...defaultState,
+                loading: true,
+                progress: {
+                    current: 1,
+                    total: numberOfPages,
+                },
+            })
+
+            const requests = Array.from(
+                { length: numberOfPages }, // create an array of length `pages`
+                (_, index) => index + 1, // fill it with numbers from 1 to `pages`
+            ).map(async (page) => {
+                const posts = await getFavoritesPage(user.id, page)
+                $favorites.state.set({
+                    ...defaultState,
+                    loading: true,
+                    progress: {
+                        current: $favorites.state.get().progress.current + 1,
+                        total: numberOfPages,
+                    },
+                })
+                return posts
+            })
+
+            const responses = await Promise.allSettled(requests)
+            const favorites = responses.flatMap((page) => page.status === "fulfilled" ? page.value : [])
 
             const update = favorites.length === 0
                 ? {

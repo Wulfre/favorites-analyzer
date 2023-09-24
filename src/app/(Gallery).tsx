@@ -9,9 +9,10 @@ const Gallery = () => {
     const displayFavorites = $favorites.state.data.use().filter((post) => !post.flags.deleted)
     const userLoading = $favorites.state.loading.use()
     const favoritesLoading = $favorites.state.loading.use()
+    const favoritesProgress = $favorites.state.progress.use()
 
     return (
-        <Show if={!userLoading && !favoritesLoading} else={<Loader />}>
+        <Show if={!userLoading && !favoritesLoading} else={<><Loader /><span>{favoritesProgress.current}{"/"}{favoritesProgress.total}</span></>}>
             <div
                 className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}
                 data-testid={"gallery"}
