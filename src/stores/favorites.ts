@@ -34,10 +34,10 @@ export const $favorites = observable<FavoritesStore>({
 
             const favorites = await getFavorites(user)
 
-            const update = favorites === undefined
+            const update = favorites.length === 0
                 ? {
                     ...defaultState,
-                    error: "Failed to fetch favorites",
+                    error: "No favorites found.",
                 }
                 : {
                     ...defaultState,

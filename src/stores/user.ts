@@ -36,7 +36,7 @@ export const $user = observable<UserStore>({
             const update = user === undefined
                 ? {
                     ...defaultState,
-                    error: "User not found",
+                    error: "User not found.",
                 }
                 : {
                     ...defaultState,
