@@ -217,7 +217,7 @@ const config = {
 
         // ✨ IMPORT RULES - STYLE
         "import/consistent-type-specifier-style": ["warn", "prefer-top-level"],
-        "import/exports-last": ["warn"],
+        // "import/exports-last": ["warn"],
         "import/first": ["warn"],
         "import/newline-after-import": ["warn"],
 
