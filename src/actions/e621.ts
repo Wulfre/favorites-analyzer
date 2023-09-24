@@ -14,47 +14,66 @@ const throttle = pThrottle({
 })
 
 const clientString = encodeURIComponent("Favorites Analyzer/0.1 (by Wulfre)")
-const pageLimit = 300
+const pageLimit = 320
 
 export const getUser = throttle(async (username: string): Promise<User | undefined> => {
-    const response = await fetch(`https://e621.net/users/${encodeURIComponent(username)}.json?_client=${clientString}`, { next: { revalidate: 60 * 60 } })
+    const defaultReturn = undefined
 
-    if (!response.ok) {
-        log.debug(`failed to fetch user data for user "${username}"`)
-        return undefined
+    try {
+        const response = await fetch(`https://e621.net/users/${encodeURIComponent(username)}.json?_client=${clientString}`, { next: { revalidate: 60 * 60 } })
+
+        if (!response.ok) {
+            log.warn(`failed to fetch user data for user "${username}"`)
+            return defaultReturn
+        }
+
+        const user = userSchema.parse(await response.json())
+        log.info(`fetched user data for user "${username}", id ${user.id}`)
+
+        return user
+    } catch {
+        log.error(`failed to fetch user data for user "${username}"`)
+        return defaultReturn
     }
-
-    const user = userSchema.parse(await response.json())
-    log.debug(`fetched user data for user "${username}", id ${user.id}`)
-
-    return user
 })
 
 const getFavoritesPage = throttle(async (userId: number, page: number): Promise<Post[]> => {
+    const defaultReturn: Post[] = []
+
     const responseSchema = z.object({
         posts: z.array(postSchema),
     })
 
-    const response = await fetch(`https://e621.net/favorites.json?_client=${clientString}&user_id=${userId}&limit=${pageLimit}&page=${page}`, { next: { revalidate: 60 * 60 } })
+    try {
+        const response = await fetch(`https://e621.net/favorites.json?_client=${clientString}&user_id=${userId}&limit=${pageLimit}&page=${page}`, { next: { revalidate: 60 * 60 } })
 
-    if (!response.ok) {
-        log.debug(`failed to fetch page ${page} of favorites for user ${userId}`)
-        return []
+        if (!response.ok) {
+            log.warn(`failed to fetch page ${page} of favorites for user ${userId}`)
+            return defaultReturn
+        }
+
+        const { posts } = responseSchema.parse(await response.json())
+        log.info(`fetched page ${page} of favorites for user ${userId}`)
+        return posts
+    } catch {
+        log.error(`failed to fetch page ${page} of favorites for user ${userId}`)
+        return defaultReturn
     }
-
-    const { posts } = responseSchema.parse(await response.json())
-    log.debug(`fetched page ${page} of favorites for user ${userId}`)
-    return posts
 })
 
 export const getFavorites = async (user: User): Promise<Post[]> => {
     const pages = Math.ceil(user.favorite_count / pageLimit)
+
+    log.info(`fetching ${pages} pages of favorites for user ${user.id}`)
 
     const requests = Array.from(
         { length: pages }, // create an array of length `pages`
         (_, index) => index + 1, // fill it with numbers from 1 to `pages`
     ).map(async (page) => getFavoritesPage(user.id, page))
 
-    const pagesData = await Promise.allSettled(requests)
-    return pagesData.flatMap((page) => page.status === "fulfilled" ? page.value : [])
+    const responses = await Promise.allSettled(requests)
+    const posts = responses.flatMap((page) => page.status === "fulfilled" ? page.value : [])
+    log.info(`fetched ${posts.length} favorites for user ${user.id}`)
+
+    return posts
 }
