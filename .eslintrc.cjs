@@ -282,6 +282,7 @@ const config = {
                         // NextJS Special Names
                         "layout.(jsx|tsx)",
                         "page.(jsx|tsx)",
+                        "loading.(jsx|tsx)",
                     ],
                 }],
 
