@@ -1,5 +1,6 @@
 {
     "name": "favorites-analyzer-next",
+    "type": "module",
     "version": "0.1.0",
     "private": true,
     "scripts": {
@@ -20,12 +21,12 @@
         "p-throttle": "^5.1.0",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "taze": "^0.11.2",
         "ts-pattern": "^5.0.5",
         "vercel": "^32.3.1",
         "zod": "^3.22.2"
     },
     "devDependencies": {
+        "@antfu/eslint-config": "1.0.0-beta.21",
         "@iconify-json/carbon": "^1.1.21",
         "@next/env": "^13.5.2",
         "@total-typescript/ts-reset": "^0.5.1",
@@ -36,21 +37,12 @@
         "@types/react": "18.2.22",
         "@types/react-dom": "18.2.7",
         "@typescript-eslint/eslint-plugin": "^6.7.2",
-        "@typescript-eslint/parser": "^6.7.2",
-        "@unocss/eslint-config": "^0.56.1",
+        "@unocss/eslint-plugin": "^0.56.5",
         "@unocss/postcss": "^0.56.1",
         "eslint": "8.50.0",
-        "eslint-config-next": "13.5.2",
-        "eslint-import-resolver-typescript": "^3.6.1",
-        "eslint-plugin-eslint-comments": "^3.2.0",
-        "eslint-plugin-import": "npm:eslint-plugin-i@^2.28.1",
-        "eslint-plugin-n": "^16.1.0",
         "eslint-plugin-only-warn": "^1.1.0",
-        "eslint-plugin-perfectionist": "^2.1.0",
         "eslint-plugin-prefer-arrow-functions": "^3.1.4",
-        "eslint-plugin-promise": "^6.1.1",
         "eslint-plugin-sonarjs": "^0.21.0",
-        "eslint-plugin-unicorn": "^48.0.1",
         "postcss": "^8.4.30",
         "typescript": "5.2.2",
         "unocss": "^0.56.1"
