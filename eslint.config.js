@@ -48,9 +48,11 @@ export default configFactory({
         // disable included rules
         "no-void": ["off"],
         "antfu/top-level-function": ["off"],
+        "node/prefer-global/process": ["warn", "always"],
 
         // modify included rules
         "arrow-parens": ["warn", "always"],
+        "curly": ["warn", "all"],
         "style/indent": ["warn", 4],
         "style/quotes": ["warn", "double"],
 

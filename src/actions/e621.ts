@@ -5,7 +5,7 @@ import { z } from "zod"
 import { clientString, pageLimit } from "./e621-config"
 import type { Post } from "~/schemas/post"
 import type { User } from "~/schemas/user"
-import { log } from "~/lib/log"
+import { log } from "~/utils/log"
 import { postSchema } from "~/schemas/post"
 import { userSchema } from "~/schemas/user"
 

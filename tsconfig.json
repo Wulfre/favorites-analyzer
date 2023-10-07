@@ -2,9 +2,16 @@
     "extends": [
         "@tsconfig/recommended/tsconfig.json",
         "@tsconfig/strictest/tsconfig.json",
-        "@tsconfig/next/tsconfig.json",
+        "@tsconfig/next/tsconfig.json"
     ],
     "compilerOptions": {
+        "target": "ES2020",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable",
+            "WebWorker"
+        ],
         "paths": {
             "~/*": [
                 "./src/*"
@@ -12,7 +19,6 @@
         }
     },
     "include": [
-        "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
         ".next/types/**/*.ts"

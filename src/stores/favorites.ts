@@ -68,8 +68,8 @@ export const $favorites = observable<FavoritesStore>({
                 return posts
             })
 
-            const responses = await Promise.allSettled(requests)
-            const favorites = responses.flatMap((page) => page.status === "fulfilled" ? page.value : [])
+            const results = await Promise.allSettled(requests)
+            const favorites = results.flatMap((result) => result.status === "fulfilled" ? result.value : [])
 
             const update = favorites.length === 0
                 ? {
