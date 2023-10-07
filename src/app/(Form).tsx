@@ -11,16 +11,16 @@ const Form: FunctionComponent = () => {
     const username = $username.use()
 
     return (
-        <div className={"flex flex-col gap-4"} data-testid={"form"}>
+        <div className={"flex flex-col gap-5"} data-testid={"form"}>
             <input
-                className={"c-background bg-foreground h-4ch p-x-2 b-rd-1 outline-none focus:outline-blue"}
+                className={"c-primary-950 bg-primary-50 h-3ch px-2 b-rd-1 outline-none focus:outline-secondary-500"}
                 data-testid={"form--username"}
                 onInput={(event) => { $username.set(event.currentTarget.value) }}
                 type={"text"}
                 value={username}
             />
             <button
-                className={"bg-blue c-black b-rd-1 h-4ch"}
+                className={"bg-secondary-500 c-secondary-50 b-rd-1 h-3ch"}
                 disabled={$user.state.loading.use()}
                 onClick={async () => {
                     await $user.actions.fetchUser(username)

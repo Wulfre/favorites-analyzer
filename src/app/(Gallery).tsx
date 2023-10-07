@@ -12,7 +12,12 @@ const Gallery = () => {
     const favoritesProgress = $favorites.state.progress.use()
 
     return (
-        <Show if={!userLoading && !favoritesLoading} else={<><Loader /><span>{favoritesProgress.current}{"/"}{favoritesProgress.total}</span></>}>
+        <Show if={!userLoading && !favoritesLoading} else={
+            <div className={"grid place-items-center"}>
+                <Loader />
+                <span>{favoritesProgress.current}{" / "}{favoritesProgress.total}</span>
+            </div>
+        }>
             <div
                 className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}
                 data-testid={"gallery"}
@@ -26,7 +31,7 @@ const Gallery = () => {
                             className={"relative"}
                         >
                             <img
-                                className={"b-2 b-rd-2 b-white bg-white"}
+                                className={"b-2 b-rd-2 b-primary-50 bg-primary-50"}
                                 data-testid={`gallery-image-${favorite.id}`}
                                 alt={""}
                                 loading={"lazy"}
@@ -35,8 +40,8 @@ const Gallery = () => {
                                 src={`https://static1.e621.net/data/preview/${favorite.file.md5.at(0)}${favorite.file.md5.at(1)}/${favorite.file.md5.at(2)}${favorite.file.md5.at(3)}/${favorite.file.md5}.jpg`}
                             />
                             <Show if={["webm", "gif"].includes(favorite.file.ext)}>
-                                <div className={"absolute inset-0.5ch h-[min-content] w-[min-content] p-0.5ch b-rd-50% bg-black"}>
-                                    <div className={"i-carbon:play-filled-alt?mask text-1ch"} />
+                                <div className={"absolute inset-1 h-[min-content] w-[min-content] p-2 b-rd-50% bg-primary-950"}>
+                                    <div className={"i-carbon:play-filled-alt?mask text-3"} />
                                 </div>
                             </Show>
                         </a>

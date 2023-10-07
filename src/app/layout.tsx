@@ -9,7 +9,7 @@ type Props = {
 
 const RootLayout: FunctionComponent<Props> = (props) => (
     <html lang={"en"}>
-        <body className={"font-sans bg-background c-foreground min-h-100dvh max-w-1200px m-auto"}>
+        <body className={"min-h-100dvh max-w-1200px mx-auto text-5 font-sans font-500 bg-primary-950 c-primary-50"}>
             <LegendStateProvider>
                 {props.children}
             </LegendStateProvider>
