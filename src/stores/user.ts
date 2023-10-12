@@ -1,6 +1,6 @@
 import { observable } from "@legendapp/state"
 import type { User } from "~/schemas/user"
-import { getUser } from "~/actions/e621"
+import { getUser } from "~/actions/e621/external"
 
 type UserState = {
     data: User | undefined

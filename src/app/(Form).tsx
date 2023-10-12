@@ -4,6 +4,7 @@ import type { FunctionComponent } from "react"
 import { observable } from "@legendapp/state"
 import { $favorites } from "~/stores/favorites"
 import { $user } from "~/stores/user"
+import { $toaster } from "~/components/ui/Toaster/store"
 
 const $username = observable("")
 
@@ -29,6 +30,7 @@ const Form: FunctionComponent = () => {
             >
                 {"Go"}
             </button>
+            <button onClick={() => { $toaster.addToast({ title: `${$toaster.toasts.get().size + 1}`, description: "Hi." }) }}>{"Test Toast"}</button>
         </div>
     )
 }

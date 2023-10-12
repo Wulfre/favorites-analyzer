@@ -1,11 +1,11 @@
-import { loadEnvConfig } from "@next/env"
+import { config } from "dotenv"
 import { createEnv } from "@t3-oss/env-nextjs"
 import { z } from "zod"
 import { isNode } from "~/utils/runtime"
 
 // If we are trying to use env variables outside of the nextjs runtime, we need to load them manually.
 if (isNode() && process.env["NEXT_PUBLIC_ENV"] === undefined) {
-    loadEnvConfig(process.cwd())
+    config({ path: ".env.local" })
 }
 
 export const env = createEnv({

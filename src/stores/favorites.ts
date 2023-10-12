@@ -1,8 +1,8 @@
 import { observable } from "@legendapp/state"
 import type { Post } from "~/schemas/post"
 import type { User } from "~/schemas/user"
-import { getFavoritesPage } from "~/actions/e621"
-import { pageLimit } from "~/actions/e621-config"
+import { getFavoritesPage } from "~/actions/e621/external"
+import { pageLimit } from "~/actions/e621/config"
 
 type FavoritesState = {
     data: Post[]

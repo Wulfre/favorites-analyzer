@@ -2,7 +2,7 @@
 
 import { Show } from "@legendapp/state/react"
 import { For } from "million/react"
-import Loader from "~/components/Loader"
+import Loader from "~/components/ui/Loader"
 import { $favorites } from "~/stores/favorites"
 
 const Gallery = () => {
@@ -31,7 +31,7 @@ const Gallery = () => {
                             className={"relative"}
                         >
                             <img
-                                className={"b-2 b-rd-2 b-primary-50 bg-primary-50"}
+                                className={"b-2 b-rd-1 b-primary-200 bg-primary-200"}
                                 data-testid={`gallery-image-${favorite.id}`}
                                 alt={""}
                                 loading={"lazy"}
@@ -41,7 +41,7 @@ const Gallery = () => {
                             />
                             <Show if={["webm", "gif"].includes(favorite.file.ext)}>
                                 <div className={"absolute inset-1 h-[min-content] w-[min-content] p-2 b-rd-50% bg-primary-950"}>
-                                    <div className={"i-carbon:play-filled-alt?mask text-3"} />
+                                    <div className={"i-carbon:play-filled-alt?mask c-primary-200 text-3"} />
                                 </div>
                             </Show>
                         </a>

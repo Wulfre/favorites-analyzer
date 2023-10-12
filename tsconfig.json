@@ -5,13 +5,7 @@
         "@tsconfig/next/tsconfig.json"
     ],
     "compilerOptions": {
-        "target": "ES2020",
-        "lib": [
-            "ESNext",
-            "DOM",
-            "DOM.Iterable",
-            "WebWorker"
-        ],
+        "target": "ES2021",
         "paths": {
             "~/*": [
                 "./src/*"

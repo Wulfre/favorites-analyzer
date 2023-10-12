@@ -55,6 +55,7 @@ export default configFactory({
         "curly": ["warn", "all"],
         "style/indent": ["warn", 4],
         "style/quotes": ["warn", "double"],
+        "ts/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
 
         // enable included rules
         "eslint-comments/require-description": ["warn"],

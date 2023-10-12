@@ -2,7 +2,7 @@
 
 import pThrottle from "p-throttle"
 import { z } from "zod"
-import { clientString, pageLimit } from "./e621-config"
+import { clientString, pageLimit } from "./config"
 import type { Post } from "~/schemas/post"
 import type { User } from "~/schemas/user"
 import { log } from "~/utils/log"

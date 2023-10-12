@@ -9,4 +9,6 @@ type Props = {
     children: ReactNode
 }
 
-export const LegendStateProvider: FunctionComponent<Props> = (props) => props.children
+const LegendStateConfig: FunctionComponent<Props> = ({ children }) => children
+
+export default LegendStateConfig
