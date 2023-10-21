@@ -1,9 +1,11 @@
 "use client"
 
 import type { FunctionComponent, ReactNode } from "react"
-import { enableReactUse } from "@legendapp/state/config/enableReactUse"
+import { enableReactTracking } from "@legendapp/state/config/enableReactTracking"
 
-enableReactUse() // enables `use()` method on observables in client components
+enableReactTracking({
+    auto: true,
+})
 
 type Props = {
     children: ReactNode

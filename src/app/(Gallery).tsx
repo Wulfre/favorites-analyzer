@@ -1,55 +1,59 @@
 "use client"
 
-import { Show } from "@legendapp/state/react"
+import { computed } from "@legendapp/state"
+import { Show, observer } from "@legendapp/state/react"
 import { For } from "million/react"
 import Loader from "~/components/ui/Loader"
 import { $favorites } from "~/stores/favorites"
 
-const Gallery = () => {
-    const displayFavorites = $favorites.state.data.use().filter((post) => !post.flags.deleted)
-    const userLoading = $favorites.state.loading.use()
-    const favoritesLoading = $favorites.state.loading.use()
-    const favoritesProgress = $favorites.state.progress.use()
+const $displayFavorites = computed(() => $favorites.state.data.get().filter((post) => !post.flags.deleted))
 
-    return (
-        <Show if={!userLoading && !favoritesLoading} else={
+const Gallery = () => (
+    <Show
+        if={!$favorites.state.loading.get()}
+        else={(
             <div className={"grid place-items-center"}>
                 <Loader />
-                <span>{favoritesProgress.current}{" / "}{favoritesProgress.total}</span>
+                <span>
+                    {`${$favorites.state.progress.current.get()} / ${$favorites.state.progress.total.get()}`}
+                </span>
             </div>
-        }>
-            <div
-                className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}
-                data-testid={"gallery"}
-            >
-                <For each={displayFavorites} memo>
-                    {(favorite) => (
-                        <a
-                            href={`https://e621.net/posts/${favorite.id}`}
-                            target={"_blank"}
-                            rel={"noopener noreferrer"}
-                            className={"relative"}
-                        >
-                            <img
-                                className={"b-2 b-rd-1 b-primary-200 bg-primary-200"}
-                                data-testid={`gallery-image-${favorite.id}`}
-                                alt={""}
-                                loading={"lazy"}
-                                width={150}
-                                height={150}
-                                src={`https://static1.e621.net/data/preview/${favorite.file.md5.at(0)}${favorite.file.md5.at(1)}/${favorite.file.md5.at(2)}${favorite.file.md5.at(3)}/${favorite.file.md5}.jpg`}
-                            />
-                            <Show if={["webm", "gif"].includes(favorite.file.ext)}>
-                                <div className={"absolute inset-1 h-[min-content] w-[min-content] p-2 b-rd-50% bg-primary-950"}>
-                                    <div className={"i-carbon:play-filled-alt?mask c-primary-200 text-3"} />
-                                </div>
-                            </Show>
-                        </a>
-                    )}
-                </For>
-            </div>
-        </Show>
-    )
-}
+        )}
+    >
+        <pre className={"bg-primary-900 p-1ch b-rd-1 overflow-hidden text-3 ws-pre-wrap"}>
+            {JSON.stringify($displayFavorites.get(), undefined, 4)}
+        </pre>
+        <div
+            className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}
+            data-testid={"gallery"}
+        >
+            <For each={$displayFavorites.get()} memo>
+                {(favorite) => (
+                    <a
+                        href={`https://e621.net/posts/${favorite.id}`}
+                        target={"_blank"}
+                        rel={"noopener noreferrer"}
+                        className={"relative"}
+                    >
+                        <img
+                            className={"b-2 b-rd-1 b-primary-200 bg-primary-200"}
+                            data-testid={`gallery-image-${favorite.id}`}
+                            alt={""}
+                            loading={"lazy"}
+                            width={150}
+                            height={150}
+                            src={`https://static1.e621.net/data/preview/${favorite.file.md5.at(0)}${favorite.file.md5.at(1)}/${favorite.file.md5.at(2)}${favorite.file.md5.at(3)}/${favorite.file.md5}.jpg`}
+                        />
+                        <Show if={!["png", "jpg"].includes(favorite.file.ext)}>
+                            <div className={"absolute inset-1 h-[min-content] w-[min-content] p-2 b-rd-50% bg-primary-950"}>
+                                <div className={"i-carbon:play-filled-alt?mask c-primary-200 text-3"} />
+                            </div>
+                        </Show>
+                    </a>
+                )}
+            </For>
+        </div>
+    </Show>
+)
 
-export default Gallery
+export default observer(Gallery)

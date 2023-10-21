@@ -61,6 +61,7 @@ export default configFactory({
         "curly": ["warn", "all"],
         "node/prefer-global/process": ["warn", "always"],
         "style/jsx-curly-brace-presence": ["warn", "always"],
+        "style/brace-style": ["warn", "1tbs", { allowSingleLine: true }],
 
         // enable included rules
         "eslint-comments/require-description": ["warn"],

@@ -1,50 +1,57 @@
 import { observable } from "@legendapp/state"
+import { $favorites } from "./favorites"
 import type { User } from "~/schemas/user"
 import { getUser } from "~/actions/e621/external"
+import { $toaster } from "~/components/ui/Toaster"
 
 type UserState = {
     data: User | undefined
-    error: string
     loading: boolean
 }
 
 type UserActions = {
-    fetchUser: (username: string) => Promise<void>
+    fetch: (username: string) => Promise<void>
 }
 
 type UserStore = {
-    actions: UserActions
     state: UserState
+    actions: UserActions
 }
 
 const defaultState: UserState = {
     data: undefined,
-    error: "",
     loading: false,
 }
 
 export const $user = observable<UserStore>({
+    state: defaultState,
     actions: {
-        fetchUser: async (username) => {
-            $user.state.set({
-                ...defaultState,
-                loading: true,
-            })
+        fetch: async (username: string) => {
+            $favorites.actions.reset()
+            $user.state.set({ ...defaultState, loading: true })
 
-            const user = await getUser(username)
+            try {
+                const user = await getUser(username)
 
-            const update = user === undefined
-                ? {
-                    ...defaultState,
-                    error: "User not found.",
+                if (user === undefined) {
+                    $user.state.set({ ...defaultState })
+                    $toaster.createToast({
+                        type: "error",
+                        header: "User Error",
+                        message: "User not found.",
+                    })
+                    return
                 }
-                : {
-                    ...defaultState,
-                    data: user,
-                }
 
-            $user.state.set(update)
+                $user.state.set({ ...defaultState, data: user })
+            } catch (error) {
+                $user.state.set({ ...defaultState })
+                $toaster.createToast({
+                    type: "error",
+                    header: "User Error",
+                    message: "An error occurred while fetching the user.",
+                })
+            }
         },
     },
-    state: defaultState,
 })

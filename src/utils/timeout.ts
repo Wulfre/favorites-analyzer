@@ -1,55 +1,73 @@
-type TimeoutState = {
-    timeout: number | NodeJS.Timeout
-    startTime: number
-    duration: number
-}
-
-export type PauseableTimeout = {
-    state: "paused" | "running" | "cleared"
-    getTimeRemaining: () => number
+export type ManagedTimeout = {
+    state: "pending" | "resolved" | "cancelled" | "paused"
+    _startTime: number
+    _delay: number
+    _timeout: number | NodeJS.Timeout | undefined
+    timeRemaining: number
     pause: () => void
     resume: () => void
-    clear: () => void
-    complete: () => void
+    reset: () => void
+    cancel: () => void
+    execute: () => void
 }
 
-export const createPauseableTimeout = (callback: () => void, delay: number): PauseableTimeout => {
-    const timeout: TimeoutState = {
-        timeout: setTimeout(callback, delay),
-        startTime: Date.now(),
-        duration: delay,
-    }
-
-    const pauseableTimeout: PauseableTimeout = {
-        state: "running",
-        getTimeRemaining: () => timeout.duration - (Date.now() - timeout.startTime),
+export const createManagedTimeout = (callback: () => void, delay: number = 0): ManagedTimeout => {
+    const timeout: ManagedTimeout = {
+        state: "pending",
+        _startTime: Date.now(),
+        _delay: delay,
+        _timeout: setTimeout(() => {
+            timeout.execute()
+        }, delay),
+        get timeRemaining() {
+            const elapsed = Date.now() - timeout._startTime
+            return Math.max(0, timeout._delay - elapsed)
+        },
+        execute: () => {
+            if (timeout.state === "pending" || timeout.state === "paused") {
+                clearTimeout(timeout._timeout)
+                timeout.state = "resolved"
+                timeout._timeout = undefined
+                timeout._delay = 0
+                callback()
+            }
+        },
         pause: () => {
-            if (pauseableTimeout.state === "running") {
-                clearTimeout(timeout.timeout)
-                timeout.duration = pauseableTimeout.getTimeRemaining()
-                pauseableTimeout.state = "paused"
+            if (timeout.state === "pending") {
+                clearTimeout(timeout._timeout)
+                timeout.state = "paused"
+                timeout._timeout = undefined
+                timeout._delay = timeout.timeRemaining
             }
         },
         resume: () => {
-            if (pauseableTimeout.state === "paused") {
-                timeout.startTime = Date.now()
-                timeout.timeout = setTimeout(callback, timeout.duration)
-                pauseableTimeout.state = "running"
+            if (timeout.state === "paused") {
+                timeout._timeout = setTimeout(() => {
+                    timeout.execute()
+                }, timeout._delay)
+                timeout.state = "pending"
+                timeout._startTime = Date.now()
             }
         },
-        clear: () => {
-            if (pauseableTimeout.state !== "cleared") {
-                clearTimeout(timeout.timeout)
-                pauseableTimeout.state = "cleared"
-            }
+        reset: () => {
+            clearTimeout(timeout._timeout)
+            timeout._timeout = setTimeout(() => {
+                timeout.execute()
+            }, delay)
+            timeout.state = "pending"
+            timeout._delay = delay
+            timeout._startTime = Date.now()
         },
-        complete: () => {
-            if (pauseableTimeout.state !== "cleared") {
-                callback()
-                pauseableTimeout.clear()
+        cancel: () => {
+            if (timeout.state !== "cancelled") {
+                clearTimeout(timeout._timeout)
+                timeout.state = "cancelled"
+                timeout._timeout = undefined
+                timeout._delay = 0
+                timeout._startTime = 0
             }
         },
     }
 
-    return pauseableTimeout
+    return timeout
 }

@@ -13,8 +13,8 @@ const RootLayout: FunctionComponent<Props> = ({ children }) => (
         <body className={"min-h-100dvh max-w-1200px mx-auto text-5 font-sans font-500 bg-primary-950 c-primary-50"}>
             <LegendStateConfig>
                 {children}
+                <Toaster />
             </LegendStateConfig>
-            <Toaster />
             <Analytics debug={false} />
         </body>
     </html>

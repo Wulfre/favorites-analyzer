@@ -14,25 +14,16 @@ const throttle = pThrottle({
 })
 
 export const getUser = throttle(async (username: string): Promise<User | undefined> => {
-    const defaultReturn = undefined
+    const response = await fetch(`https://e621.net/users/${encodeURIComponent(username)}.json?_client=${clientString}`, { cache: "no-cache" })
 
-    try {
-        const response = await fetch(`https://e621.net/users/${encodeURIComponent(username)}.json?_client=${clientString}`, { cache: "no-cache" })
-
-        if (!response.ok) {
-            console.warn(`failed to fetch user data for user "${username}"`)
-            return defaultReturn
-        }
-
-        const user = userSchema.parse(await response.json())
-        console.info(`fetched user data for user "${username}", id ${user.id}`)
-
-        return user
+    if (!response.ok) {
+        throw new Error(`failed to fetch user data for user "${username}"`)
     }
-    catch {
-        console.error(`failed to fetch user data for user "${username}"`)
-        return defaultReturn
-    }
+
+    const user = userSchema.parse(await response.json())
+    console.info(`fetched user data for user "${username}", id ${user.id}`)
+
+    return user
 })
 
 export const getFavoritesPage = throttle(async (userId: number, page: number): Promise<Post[]> => {
@@ -53,8 +44,7 @@ export const getFavoritesPage = throttle(async (userId: number, page: number): P
         const { posts } = responseSchema.parse(await response.json())
         console.info(`fetched page ${page} of favorites for user ${userId}`)
         return posts
-    }
-    catch {
+    } catch {
         console.error(`failed to fetch page ${page} of favorites for user ${userId}`)
         return defaultReturn
     }
