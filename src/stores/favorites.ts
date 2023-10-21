@@ -1,7 +1,7 @@
 import { observable } from "@legendapp/state"
 import type { Post } from "~/schemas/post"
 import type { User } from "~/schemas/user"
-import { getFavoritesPage } from "~/actions/e621/external"
+import { getFavoritesPage } from "~/actions/e621/server"
 import { pageLimit } from "~/actions/e621/config"
 import { $toaster } from "~/components/ui/Toaster"
 

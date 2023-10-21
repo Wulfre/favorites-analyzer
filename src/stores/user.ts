@@ -1,7 +1,7 @@
 import { observable } from "@legendapp/state"
 import { $favorites } from "./favorites"
 import type { User } from "~/schemas/user"
-import { getUser } from "~/actions/e621/external"
+import { getUser } from "~/actions/e621/server"
 import { $toaster } from "~/components/ui/Toaster"
 
 type UserState = {

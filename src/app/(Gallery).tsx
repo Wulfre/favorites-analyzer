@@ -2,7 +2,7 @@
 
 import { computed } from "@legendapp/state"
 import { Show, observer } from "@legendapp/state/react"
-import { getPostsTagCount } from "~/actions/e621/internal"
+import { getPostsTagCount } from "~/actions/e621/client"
 import Loader from "~/components/ui/Loader"
 import { $favorites } from "~/stores/favorites"
 
