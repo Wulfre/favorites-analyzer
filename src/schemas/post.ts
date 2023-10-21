@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const categoryKeySchema = z.union([
+export const categoryKeySchema = z.union([
     z.literal("general"),
     z.literal("species"),
     z.literal("character"),

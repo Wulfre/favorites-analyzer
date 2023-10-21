@@ -46,10 +46,10 @@ const positionStyles = {
 }
 
 const typeStyles = {
-    info: "bg-primary-700 c-primary-200",
-    success: "bg-success-700 c-success-200",
-    warning: "bg-warning-700 c-warning-200",
-    error: "bg-error-700 c-error-200",
+    info: "bg-primary-400 c-primary-900",
+    success: "bg-success-400 c-success-900",
+    warning: "bg-warning-400 c-warning-900",
+    error: "bg-error-400 c-error-900",
 }
 
 type Props = HTMLAttributes<HTMLDivElement> & {

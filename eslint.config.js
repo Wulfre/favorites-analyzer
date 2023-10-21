@@ -38,6 +38,7 @@ export default configFactory({
             // modify included rules
             "ts/consistent-type-definitions": ["warn", "type"],
             "ts/no-misused-promises": ["warn", { checksVoidReturn: false }],
+            "ts/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
 
             // enable included rules
 

@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactNode } from "react"
 import { Analytics } from "@vercel/analytics/react"
 import "~/app/globals.css"
-import LegendStateConfig from "~/components/LegendStateConfig"
+import LegendStateConfig from "~/components/wrappers/LegendStateConfig"
 import Toaster from "~/components/ui/Toaster"
 
 type Props = {
