@@ -1,12 +1,13 @@
 import type { FunctionComponent } from "react"
 import Form from "./(Form)"
 import Gallery from "./(Gallery)"
+import Main from "~/components/ui/Main"
 
 const IndexPage: FunctionComponent = () => (
-    <main className={"flex flex-col gap-5 p-5"} data-testid={"index"}>
+    <Main data-testid={"index"}>
         <Form />
         <Gallery />
-    </main>
+    </Main>
 )
 
 export default IndexPage

@@ -6,36 +6,6 @@ import { createManagedTimeout } from "~/utils/timeout"
 import type { ManagedTimeout } from "~/utils/timeout"
 import { cn } from "~/utils/style"
 
-type ToastProps = {
-    header: string
-    message: string
-    type?: "info" | "success" | "warning" | "error"
-    timeout: ManagedTimeout
-}
-
-export const $toaster = observable({
-    toasts: new Map<string, ToastProps>(),
-    maxVisible: 3,
-    visibleToastKeys: computed(
-        (): string[] => [...$toaster.toasts]
-            .reverse()
-            .filter((_, index) => index < $toaster.maxVisible.get())
-            .map(([key]) => key),
-    ),
-    createToast: (toast: Omit<ToastProps, "timeout">) => {
-        const key = crypto.randomUUID()
-
-        $toaster.toasts.set(key, {
-            header: toast.header,
-            message: toast.message,
-            type: toast.type ?? "info",
-            timeout: createManagedTimeout(() => {
-                $toaster.toasts.delete(key)
-            }, 5000),
-        })
-    },
-})
-
 const positionStyles = {
     "top-left": "top-0 left-0",
     "top-center": "top-0 left-50% transform-translate-x--50%",
@@ -52,9 +22,35 @@ const typeStyles = {
     error: "bg-error-400 c-error-900",
 }
 
-type Props = HTMLAttributes<HTMLDivElement> & {
-    position?: keyof typeof positionStyles
+type ToastProps = {
+    header: string
+    message: string
+    type?: "info" | "success" | "warning" | "error"
+    timeout: ManagedTimeout
 }
+
+export const $toaster = observable({
+    toasts: new Map<string, ToastProps>(),
+    maxVisible: 3,
+    visibleToastKeys: computed(
+        (): string[] => [...$toaster.toasts]
+            .reverse()
+            .filter((_, index) => index < $toaster.maxVisible.get())
+            .map(([key]) => key),
+    ),
+    addToast: (toast: Omit<ToastProps, "timeout">) => {
+        const key = crypto.randomUUID()
+
+        $toaster.toasts.set(key, {
+            header: toast.header,
+            message: toast.message,
+            type: toast.type ?? "info",
+            timeout: createManagedTimeout(() => {
+                $toaster.toasts.delete(key)
+            }, 5000),
+        })
+    },
+})
 
 const Toast: FunctionComponent<ToastProps> = ({ header, message, timeout, type = "info" }) => (
     <div
@@ -67,7 +63,11 @@ const Toast: FunctionComponent<ToastProps> = ({ header, message, timeout, type =
     </div>
 )
 
-const Toaster: FunctionComponent<Props> = ({ position = "bottom-center", className }) => (
+type ToasterProps = HTMLAttributes<HTMLDivElement> & {
+    position?: keyof typeof positionStyles
+}
+
+const Toaster: FunctionComponent<ToasterProps> = ({ position = "bottom-center", className }) => (
     <div
         data-testid={"toaster"}
         className={cn("fixed flex flex-col gap-5 p-5", positionStyles[position], className)}

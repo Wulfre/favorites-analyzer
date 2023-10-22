@@ -35,7 +35,7 @@ export const $user = observable<UserStore>({
 
                 if (user === undefined) {
                     $user.state.set({ ...defaultState })
-                    $toaster.createToast({
+                    $toaster.addToast({
                         type: "error",
                         header: "User Error",
                         message: "User not found.",
@@ -46,7 +46,7 @@ export const $user = observable<UserStore>({
                 $user.state.set({ ...defaultState, data: user })
             } catch (error) {
                 $user.state.set({ ...defaultState })
-                $toaster.createToast({
+                $toaster.addToast({
                     type: "error",
                     header: "User Error",
                     message: "An error occurred while fetching the user.",

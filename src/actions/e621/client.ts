@@ -1,16 +1,16 @@
 import type { Post } from "~/schemas/post"
 
-export const getPostsTagCount = (posts: Post[]): Map<string, number> => {
-    const tagCounts = new Map<string, number>()
+export const getPostsTagScores = (posts: Post[]): Map<string, number> => {
+    const tagScores = new Map<string, number>()
 
     for (const post of posts) {
         for (const tags of Object.values(post.tags)) {
             for (const tag of tags) {
-                const count = tagCounts.get(tag) ?? 0
-                tagCounts.set(tag, count + 1)
+                const count = tagScores.get(tag) ?? 0
+                tagScores.set(tag, count + 1)
             }
         }
     }
 
-    return tagCounts
+    return tagScores
 }

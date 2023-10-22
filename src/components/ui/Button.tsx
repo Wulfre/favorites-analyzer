@@ -11,11 +11,11 @@ const variants = {
     ghost: "bg-[transparent] hover:bg-primary-600 active:bg-primary-700",
 } as const
 
-type Props = AsChildProps<HTMLAttributes<HTMLButtonElement>> & {
+type ButtonProps = AsChildProps<HTMLAttributes<HTMLButtonElement>> & {
     variant?: keyof typeof variants
 }
 
-const Button: FunctionComponent<Props> = ({ asChild, variant = "primary", ...props }) => {
+const Button: FunctionComponent<ButtonProps> = ({ asChild, variant = "primary", ...props }) => {
     const Component = asChild ? Slot : "button"
     return <Component className={cn("py-3 px-5 b-rd-1 transition-100", variants[variant])} {...props} />
 }

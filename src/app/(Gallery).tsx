@@ -2,12 +2,13 @@
 
 import { computed } from "@legendapp/state"
 import { Show, observer } from "@legendapp/state/react"
-import { getPostsTagCount } from "~/actions/e621/client"
+import { getPostsTagScores } from "~/actions/e621/client"
 import Loader from "~/components/ui/Loader"
+import Pre from "~/components/ui/Pre"
 import { $favorites } from "~/stores/favorites"
 
 const $displayFavorites = computed(() => $favorites.state.data.get().filter((post) => !post.flags.deleted))
-const $tagCounts = computed(() => Array.from(getPostsTagCount($displayFavorites.get()).entries()).sort((a, b) => b[1] - a[1]))
+const $tagCounts = computed(() => Array.from(getPostsTagScores($displayFavorites.get()).entries()).sort((a, b) => b[1] - a[1]))
 
 const Gallery = () => (
     <Show
@@ -23,9 +24,9 @@ const Gallery = () => (
     >
         <details open>
             <summary>{"Raw Data"}</summary>
-            <pre className={"bg-primary-900 p-1ch b-rd-1 overflow-hidden text-3 ws-pre-wrap"}>
+            <Pre>
                 {JSON.stringify($tagCounts.get(), undefined, 4)}
-            </pre>
+            </Pre>
         </details>
         <div
             className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}

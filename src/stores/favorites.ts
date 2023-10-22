@@ -75,7 +75,7 @@ export const $favorites = observable<FavoritesStore>({
                 const favorites = results.flatMap((result) => result.status === "fulfilled" ? result.value : [])
 
                 if (favorites.length === 0) {
-                    $toaster.createToast({
+                    $toaster.addToast({
                         type: "warning",
                         header: "No Favorites",
                         message: "No favorites found. This user may have no favorites, or their favorites may be private.",
@@ -87,7 +87,7 @@ export const $favorites = observable<FavoritesStore>({
                     data: favorites,
                 })
             } catch (error) {
-                $toaster.createToast({
+                $toaster.addToast({
                     type: "error",
                     header: "Favorites Error",
                     message: "An error occurred while fetching the user's favorites.",
