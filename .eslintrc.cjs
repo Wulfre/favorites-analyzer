@@ -1,9 +1,13 @@
 module.exports = {
+    root: true,
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:@typescript-eslint/stylistic-type-checked",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
         "plugin:unicorn/recommended",
+        "plugin:sonarjs/recommended",
         "@unocss",
     ],
     plugins: [
@@ -14,11 +18,18 @@ module.exports = {
     parserOptions: {
         project: true,
     },
-    root: true,
+    settings: {
+        "import/resolver": {
+            typescript: true,
+        },
+    },
     rules: {
         // disable extended
         "unicorn/prevent-abbreviations": ["off"],
         "unicorn/text-encoding-identifier-case": ["off"],
+        "unicorn/no-useless-undefined": ["off"],
+        "unicorn/no-array-for-each": ["off"],
+        "unicorn/no-array-reduce": ["off"],
 
         // modify extended
         "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
@@ -28,7 +39,7 @@ module.exports = {
         "@stylistic/quotes": ["warn", "double"],
         "@stylistic/semi": ["warn", "never"],
         "@stylistic/comma-dangle": ["warn", "always-multiline"],
-        "style/brace-style": ["error", "1tbs", { allowSingleLine: true }],
+        "@stylistic/brace-style": ["error", "1tbs", { allowSingleLine: true }],
 
         // typescript stylistic
         "@stylistic/member-delimiter-style": ["warn", {
@@ -43,7 +54,6 @@ module.exports = {
     },
     overrides: [
         {
-            // astro override
             files: ["*.astro"],
             parser: "astro-eslint-parser",
             parserOptions: {
@@ -58,24 +68,39 @@ module.exports = {
                 // filename
                 "unicorn/filename-case": ["warn", { "case": "pascalCase", "ignore": ["index.astro"] }],
 
+                // import adjustments for astro
+                "import/no-unresolved": ["warn", { "ignore": ["^astro:"] }],
+
                 // astro stylistic
                 "astro/semi": ["warn", "never"],
             },
         },
         {
-            // jsx override
             files: ["*.?(j|t)sx"],
+            settings: {
+                react: {
+                    // recommended version for preact
+                    version: "16.0",
+                },
+            },
             extends: [
-                "preact",
+                "plugin:react/recommended",
+                "plugin:react-hooks/recommended",
                 "plugin:jsx-a11y/recommended",
             ],
             rules: {
                 // filename
                 "unicorn/filename-case": ["warn", { "case": "pascalCase" }],
+
+                // disable react specific rules
+                "react/react-in-jsx-scope": ["off"],
+                "react/display-name": ["off"],
+
+                // react adjustments for preact
+                "react/no-unknown-property": ["warn", { ignore: ["class"] }],
             },
         },
         {
-            // js override
             files: ["*.?(c|m)js?(x)"],
             extends: [
                 "plugin:@typescript-eslint/disable-type-checked",

@@ -1,16 +1,10 @@
 ---
 import Layout from "~/layouts/Layout.astro"
-import Button from "~/components/Button.astro"
+import Form from "~/components/Form"
 ---
 
 <Layout title="Wulfre's Website">
-    <main class="w-35ch flex flex-col gap-5 p-5 text-justify">
-        <h1 class="text-center text-8">Hey, it's me, <span class="font-700">Wulfre</span>.</h1>
-        <p>Welcome to my website. This is my website. There is no particularly meaningful content on my website. Thank you for visiting my website.</p>
-        <p>Here are some links related to me:</p>
-        <div class="flex justify-around">
-            <Button href="https://github.com/wulfre">GitHub</Button>
-            <Button href="https://twitter.com/_wulfre">Twitter</Button>
-        </div>
+    <main>
+        <Form client:visible/>
     </main>
 </Layout>

@@ -1,10 +1,10 @@
-import { defineConfig, presetUno, presetWebFonts } from 'unocss'
+import { defineConfig, presetUno, presetWebFonts } from "unocss"
 
 export default defineConfig({
     presets: [
         presetUno(),
         presetWebFonts({
-            provider: 'google',
+            provider: "google",
             fonts: {
                 sans: {
                     name: "Atkinson Hyperlegible",
@@ -15,9 +15,9 @@ export default defineConfig({
                     name: "Source Code Pro",
                     weights: [400, 700],
                     italic: true,
-                }
-            }
-        })
+                },
+            },
+        }),
     ],
     theme: {
         colors: {
@@ -40,6 +40,6 @@ export default defineConfig({
             "highlighter-purple": "hsl(300 12% 34%)",
             "highlighter-purple-muted": "hsl(300 17% 53%)",
             "highlighter-purple-bg": "hsl(282 100% 68% / 0.15)",
-        }
-    }
+        },
+    },
 })

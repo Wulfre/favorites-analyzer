@@ -1,5 +1,6 @@
 ---
 import { ViewTransitions } from "astro:transitions"
+import Toaster from "~/components/Toaster"
 
 type Props = {
     title: string
@@ -17,7 +18,8 @@ const { title } = Astro.props
         <title>{title}</title>
         <ViewTransitions />
     </head>
-    <body class="grid m-x-auto max-w-1200px min-h-100dvh place-items-center bg-paper-bg font-sans c-paper">
+    <body class="grid m-x-auto max-w-1200px min-h-100dvh place-items-center bg-paper-bg text-5 font-sans c-paper">
         <slot />
+        <Toaster client:only />
     </body>
 </html>
