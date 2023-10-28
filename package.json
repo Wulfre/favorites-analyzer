@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "astro dev",
-        "build": "astro build"
+        "build": "astro build",
+        "lint": "eslint ."
     },
     "dependencies": {
         "@astrojs/preact": "^3.0.1",
@@ -21,7 +22,7 @@
         "@total-typescript/ts-reset": "^0.5.1",
         "@unocss/reset": "^0.57.1",
         "eslint": "^8.52.0",
-        "eslint-config-wulfre": "^0.0.9",
+        "eslint-config-wulfre": "^0.0.10",
         "unocss": "^0.57.1"
     }
 }

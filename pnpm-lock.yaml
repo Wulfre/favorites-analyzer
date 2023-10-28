@@ -47,8 +47,8 @@ devDependencies:
     specifier: ^8.52.0
     version: 8.52.0
   eslint-config-wulfre:
-    specifier: ^0.0.9
-    version: 0.0.9(eslint@8.52.0)(typescript@5.2.2)
+    specifier: ^0.0.10
+    version: 0.0.10(eslint@8.52.0)(typescript@5.2.2)
   unocss:
     specifier: ^0.57.1
     version: 0.57.1(postcss@8.4.31)(vite@4.5.0)
@@ -2628,8 +2628,8 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /eslint-config-wulfre@0.0.9(eslint@8.52.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-eL/JZXKSsP9Euzs/0i3uJXDua4hz91j15GLJ4bN6jBb83uYRKKfA+TRI8Ayc48hah9UOuiYA/KDJH5Pr8byKGA==}
+  /eslint-config-wulfre@0.0.10(eslint@8.52.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-jyfv/nkiBs+b5b8MwQYAES+TzdY6utq3a7zn7f/YrUmiIaR3uKKGeTE5bzH9ZTCyPiJ67zOlQR1kseR6erDU4A==}
     peerDependencies:
       eslint: '>=8.21.0'
     dependencies:
