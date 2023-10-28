@@ -9,8 +9,8 @@ const $displayFavorites = computed(() => $user.state.favorites.value.filter((pos
 
 export default (): JSX.Element => (
     <Show
-        when={!$user.state.status.loading.value}
-        fallback={(
+        if={!$user.state.status.loading.value}
+        else={(
             <div class="flex flex-col items-center gap-3">
                 <Loader />
                 <span>{`${$user.state.status.favorites.currentPage.value} / ${$user.state.status.favorites.totalPages.value}`}</span>
@@ -32,19 +32,18 @@ export default (): JSX.Element => (
                     >
                         <img
                             className="rounded"
-                            data-testid={`gallery-image-${favorite.id}`}
-                            alt=""
+                            data-testid="gallery-image"
+                            alt={favorite.description}
                             loading="lazy"
                             width={150}
                             height={150}
                             src={`https://static1.e621.net/data/preview/${favorite.file.md5.at(0)}${favorite.file.md5.at(1)}/${favorite.file.md5.at(2)}${favorite.file.md5.at(3)}/${favorite.file.md5}.jpg`}
                         />
-                        {!["png", "jpg"].includes(favorite.file.ext)
-                            && (
-                                <div className="absolute inset--0.5ch h-[min-content] w-[min-content] b-rd-50% bg-white p-0.5ch shadow shadow-paper-muted">
-                                    <div className="i-carbon:play-filled-alt text-3" />
-                                </div>
-                            )}
+                        <Show if={!["png", "jpg"].includes(favorite.file.ext)}>
+                            <div className="absolute inset--0.5ch h-[min-content] w-[min-content] b-rd-50% bg-white p-0.5ch shadow shadow-paper-muted">
+                                <div className="i-carbon:play-filled-alt text-3" />
+                            </div>
+                        </Show>
                     </a>
                 )}
             </For>

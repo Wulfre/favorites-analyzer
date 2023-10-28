@@ -2,10 +2,10 @@ import type { JSX, ComponentChild } from "preact"
 
 type Props = {
     children: ComponentChild
-    fallback?: ComponentChild
-    when: boolean
+    else?: ComponentChild
+    if: boolean
 }
 
-export default ({ children, fallback, when }: Props): JSX.Element => (
-    when ? <>{children}</> : <>{fallback}</>
+export default ({ children, ...props }: Props): JSX.Element => (
+    props.if ? <>{children}</> : <>{props.else}</>
 )
