@@ -1,1 +1,5 @@
-export { default } from "eslint-config-wulfre"
+import eslintConfigWulfre from "@wulfre/eslint-config"
+
+export default [
+    ...eslintConfigWulfre,
+]

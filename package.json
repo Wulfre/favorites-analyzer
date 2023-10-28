@@ -21,8 +21,8 @@
         "@iconify-json/carbon": "^1.1.21",
         "@total-typescript/ts-reset": "^0.5.1",
         "@unocss/reset": "^0.57.1",
+        "@wulfre/eslint-config": "^0.1.1",
         "eslint": "^8.52.0",
-        "eslint-config-wulfre": "^0.0.10",
         "unocss": "^0.57.1"
     }
 }
