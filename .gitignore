@@ -1,7 +1,7 @@
 # astro / build output
 dist/
 .astro/
-env.d.ts
+src/env.d.ts
 
 # vercel
 .vercel/
