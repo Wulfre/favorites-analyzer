@@ -1,13 +1,14 @@
-import Show from "~/components/Show"
 import { $user } from "~/stores/user"
+import { computed } from "@preact/signals"
+
+const $displayFavorites = computed(() => $user.state.favorites.value.filter((post) => !post.flags.deleted))
 
 export default () => (
-
     <div
         className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}
         data-testid={"gallery"}
     >
-        {$user.state.favorites.value.map((favorite) => (
+        {$displayFavorites.value.map((favorite) => (
             <a
                 key={favorite.id}
                 href={`https://e621.net/posts/${favorite.id}`}
@@ -24,11 +25,11 @@ export default () => (
                     height={150}
                     src={`https://static1.e621.net/data/preview/${favorite.file.md5.at(0)}${favorite.file.md5.at(1)}/${favorite.file.md5.at(2)}${favorite.file.md5.at(3)}/${favorite.file.md5}.jpg`}
                 />
-                <Show if={!["png", "jpg"].includes(favorite.file.ext)}>
-                    <div className={"absolute inset-1 h-[min-content] w-[min-content] p-2 b-rd-50% bg-primary-950"}>
-                        <div className={"i-carbon:play-filled-alt?mask c-primary-200 text-3"} />
+                { !["png", "jpg"].includes(favorite.file.ext) &&
+                    <div className={"absolute inset--0.5ch h-[min-content] w-[min-content] p-0.5ch b-rd-50% bg-paper-muted"}>
+                        <div className={"i-carbon:play-filled-alt text-3"} />
                     </div>
-                </Show>
+                }
             </a>
         ))}
     </div>
