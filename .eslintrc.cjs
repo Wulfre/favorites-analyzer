@@ -2,6 +2,7 @@ module.exports = {
     extends: [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
         "plugin:unicorn/recommended",
         "@unocss",
     ],
@@ -19,6 +20,9 @@ module.exports = {
         "unicorn/prevent-abbreviations": ["off"],
         "unicorn/text-encoding-identifier-case": ["off"],
 
+        // modify extended
+        "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+
         // general stylistic
         "@stylistic/indent": ["warn", 4],
         "@stylistic/quotes": ["warn", "double"],
@@ -34,11 +38,12 @@ module.exports = {
 
         // jsx stylistic
 
-        // unicorn
+        // enable new
         "unicorn/prefer-at": ["warn", { checkAllIndexAccess: true }],
     },
     overrides: [
         {
+            // astro override
             files: ["*.astro"],
             parser: "astro-eslint-parser",
             parserOptions: {
@@ -58,6 +63,7 @@ module.exports = {
             },
         },
         {
+            // jsx override
             files: ["*.?(j|t)sx"],
             extends: [
                 "preact",
@@ -69,6 +75,7 @@ module.exports = {
             },
         },
         {
+            // js override
             files: ["*.?(c|m)js?(x)"],
             extends: [
                 "plugin:@typescript-eslint/disable-type-checked",
