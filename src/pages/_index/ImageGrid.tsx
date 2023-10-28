@@ -2,8 +2,8 @@ import { computed } from "@preact/signals"
 import type { JSX } from "preact"
 import { $user } from "~/stores/user"
 import Loader from "~/components/Loader"
-import Show from "~/components/Show"
-import For from "~/components/For"
+import Show from "~/components/wrappers/Show"
+import For from "~/components/wrappers/For"
 
 const $displayFavorites = computed(() => $user.state.favorites.value.filter((post) => !post.flags.deleted))
 
