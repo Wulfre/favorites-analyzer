@@ -14,7 +14,6 @@ const e6Throttle = pThrottle({
 })
 
 const getUser = e6Throttle(async (username: string): Promise<User | undefined> => {
-    console.log("getting user")
     const response = await fetch(`https://e621.net/users/${encodeURIComponent(username)}.json?_client=${clientString}`)
 
     if (!response.ok) {
@@ -34,7 +33,6 @@ const favoritesResponseSchema = object({
 })
 
 const getFavoritesPage = e6Throttle(async (userId: number, page: number): Promise<Post[]> => {
-    console.log("getting favorites page")
     const response = await fetch(`https://e621.net/favorites.json?_client=${clientString}&user_id=${userId}&limit=${pageLimit}&page=${page}`, { cache: "no-cache" })
 
     if (!response.ok) {

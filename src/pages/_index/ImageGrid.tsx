@@ -1,10 +1,11 @@
 import { $user } from "~/stores/user"
 import { computed } from "@preact/signals"
+import Loader from "~/components/Loader"
 
 const $displayFavorites = computed(() => $user.state.favorites.value.filter((post) => !post.flags.deleted))
 
 export default () => (
-    <div
+    $user.state.loading.value ? <Loader /> : <div
         className={"grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-8 place-items-center"}
         data-testid={"gallery"}
     >
