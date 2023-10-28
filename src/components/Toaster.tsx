@@ -1,4 +1,4 @@
-import { signal, computed } from "@preact/signals"
+import { signal, computed, effect } from "@preact/signals"
 import { createManagedTimeout } from "~/utils/timeout"
 import type { ManagedTimeout } from "~/utils/timeout"
 import { cn } from "~/utils/style"
@@ -14,10 +14,10 @@ const positionStyles = {
 }
 
 const typeStyles = {
-    info: "bg-primary-400 c-primary-900",
-    success: "bg-success-400 c-success-900",
-    warning: "bg-warning-400 c-warning-900",
-    error: "bg-error-400 c-error-900",
+    info: "bg-highlighter-teal-bg c-highlighter-teal",
+    success: "bg-highlighter-green-bg c-highlighter-green",
+    warning: "bg-highlighter-orange-bg c-highlighter-orange",
+    error: "bg-highlighter-purple-bg c-highlighter-purple",
 }
 
 type ToastProps = {
@@ -41,29 +41,39 @@ export const $toaster = {
     actions: {
         addToast: (toast: Omit<ToastProps, "timeout">) => {
             const key = crypto.randomUUID()
+            const newMap = new Map($toaster.state.toasts.value)
 
-            $toaster.state.toasts.value = new Map([
-                ...$toaster.state.toasts.value,
-                [key, {
-                    header: toast.header,
-                    message: toast.message,
-                    type: toast.type ?? "info",
-                    timeout: createManagedTimeout(() => {
-                        $toaster.state.toasts.value.delete(key)
-                    }, 5000),
-                }],
-            ])
+            newMap.set(key, {
+                header: toast.header,
+                message: toast.message,
+                type: toast.type ?? "info",
+                timeout: createManagedTimeout(() => {
+                    const newMap = new Map($toaster.state.toasts.value)
+                    newMap.delete(key)
+                    $toaster.state.toasts.value = newMap
+                }, 5000),
+            })
+
+            $toaster.state.toasts.value = newMap
         },
     },
 }
 
+effect(() => {
+    $toaster.state.toasts.value.forEach((toast, key) => {
+        $toaster.state.visibleToastKeys.peek().includes(key)
+            ? toast.timeout.resume()
+            : toast.timeout.pause()
+    })
+})
+
 const Toast = ({ header, message, timeout, type = "info" }: ToastProps): JSX.Element => (
     <div
-        data-testid={"toast"}
-        className={cn("relative bg-primary-900 flex flex-col p-5 b-rd-1 w-30ch ", typeStyles[type])}
+        data-testid="toast"
+        class={cn("relative bg-paper-bg flex flex-col p-5 rounded shadow shadow-highlighter-purple-muted w-30ch", typeStyles[type])}
     >
-        <button className={"i-carbon:close?mask absolute right-1ch top-1ch"} onClick={() => { timeout.execute() }} />
-        <header className={"text-8"}>{header}</header>
+        <button class="i-carbon:close-large absolute right-1ch top-1ch" onClick={() => { timeout.execute() }} />
+        <header class="text-8">{header}</header>
         <span>{message}</span>
     </div>
 )
@@ -76,9 +86,13 @@ export default ({ position = "bottom-center", className }: ToasterProps): JSX.El
     <div
         data-testid={"toaster"}
         className={cn("fixed flex flex-col gap-5 p-5", positionStyles[position], className)}
+        onMouseEnter={() => { $toaster.state.toasts.value.forEach((toast) => { toast.timeout.pause() }) }}
+        onMouseLeave={() => { $toaster.state.toasts.value.forEach((toast) => { toast.timeout.resume() }) }}
     >
-        {[...$toaster.state.toasts.value.entries()].map(([key, toast]) => (
-            <Toast key={key} {...toast} />
-        ))}
+        {[...$toaster.state.toasts.value.entries()]
+            .filter((([key]) => $toaster.state.visibleToastKeys.value.includes(key)))
+            .map(([key, toast]) => (
+                <Toast key={key} {...toast} />
+            ))}
     </div>
 )

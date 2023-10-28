@@ -49,10 +49,15 @@ export const getUser = (async (username: string): Promise<User | undefined> => {
 })
 
 export const $user = {
-    signal: signal<User | undefined>(undefined),
+    state: {
+        user: signal<User | undefined>(undefined),
+        loading: signal(false),
+    },
     actions: {
         fetch: async (username: string) => {
-            $user.signal.value = await getUser(username)
+            $user.state.loading.value = true
+            $user.state.user.value = await getUser(username)
+            $user.state.loading.value = false
         },
     },
 }
