@@ -1,0 +1,20 @@
+---
+type Props = {
+    title: string
+}
+
+const { title } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>{title}</title>
+    </head>
+    <body class="font-sans min-h-100dvh max-w-1200px m-x-auto grid place-items-center">
+        <slot />
+    </body>
+</html>
