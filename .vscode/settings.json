@@ -23,5 +23,13 @@
         { "rule": "*-newline", "severity": "off" },
         { "rule": "*quotes", "severity": "off" },
         { "rule": "*semi", "severity": "off" }
+    ],
+    "cSpell.words": [
+        "astro",
+        "astrojs",
+        "clsx",
+        "preact",
+        "valibot",
+        "Wulfre"
     ]
 }

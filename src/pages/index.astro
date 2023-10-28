@@ -1,10 +1,12 @@
 ---
 import Layout from "~/layouts/Layout.astro"
-import Form from "~/components/Form"
+import UsernameInput from "~/pages/_index/UsernameInput"
+import ImageGrid from "./_index/ImageGrid"
 ---
 
 <Layout title="Wulfre's Website">
-    <main>
-        <Form client:visible/>
+    <main class="flex flex-col gap-5 p-5">
+        <UsernameInput client:load/>
+        <ImageGrid client:load />
     </main>
 </Layout>

@@ -18,7 +18,7 @@ const { title } = Astro.props
         <title>{title}</title>
         <ViewTransitions />
     </head>
-    <body class="grid m-x-auto max-w-1200px min-h-100dvh place-items-center bg-paper-bg text-5 font-sans c-paper">
+    <body class="m-x-auto max-w-1200px min-h-100dvh flex flex-col justify-center bg-paper-bg text-5 font-sans c-paper">
         <slot />
         <Toaster client:only />
     </body>

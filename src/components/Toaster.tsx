@@ -14,10 +14,10 @@ const positionStyles = {
 }
 
 const typeStyles = {
-    info: "bg-highlighter-teal-bg c-highlighter-teal",
-    success: "bg-highlighter-green-bg c-highlighter-green",
-    warning: "bg-highlighter-orange-bg c-highlighter-orange",
-    error: "bg-highlighter-purple-bg c-highlighter-purple",
+    info: "bg-highlighter-teal-bg c-highlighter-teal shadow-highlighter-teal-muted",
+    success: "bg-highlighter-green-bg c-highlighter-green shadow-highlighter-green-muted",
+    warning: "bg-highlighter-orange-bg c-highlighter-orange shadow-highlighter-orange-muted",
+    error: "bg-highlighter-purple-bg c-highlighter-purple shadow-highlighter-purple-muted",
 }
 
 type ToastProps = {
@@ -70,7 +70,7 @@ effect(() => {
 const Toast = ({ header, message, timeout, type = "info" }: ToastProps): JSX.Element => (
     <div
         data-testid="toast"
-        class={cn("relative bg-paper-bg flex flex-col p-5 rounded shadow shadow-highlighter-purple-muted w-30ch", typeStyles[type])}
+        class={cn("relative bg-paper-bg flex flex-col p-5 rounded shadow w-30ch", typeStyles[type])}
     >
         <button class="i-carbon:close-large absolute right-1ch top-1ch" onClick={() => { timeout.execute() }} />
         <header class="text-8">{header}</header>

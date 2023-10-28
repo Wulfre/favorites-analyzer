@@ -1,5 +1,5 @@
-import { defineConfig } from 'astro/config'
-import unocss from 'unocss/astro'
+import { defineConfig } from "astro/config"
+import unocss from "unocss/astro"
 import vercel from "@astrojs/vercel/serverless"
 import preact from "@astrojs/preact"
 
@@ -9,5 +9,5 @@ export default defineConfig({
     integrations: [
         preact(),
         unocss({ injectReset: true }),
-    ]
-});
+    ],
+})

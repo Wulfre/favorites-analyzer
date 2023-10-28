@@ -1,4 +1,5 @@
 import { signal } from "@preact/signals"
+import Button from "~/components/Button"
 import { $user } from "~/stores/user"
 
 const $username = signal("")
@@ -11,13 +12,11 @@ export default () => (
             value={$username.value}
             onInput={(event) => { $username.value = event.currentTarget.value }}
         />
-        <button
-            class="bg-highlighter-blue-bg p-x-2 p-y-1 c-highlighter-blue transition hover:c-highlighter-blue-muted"
+        <Button
             disabled={$user.state.loading.value}
             onClick={() => { void $user.actions.fetch($username.value) }}
         >
             Go
-        </button>
-        <span>{JSON.stringify($user.state.user.value, undefined, 4)}</span>
+        </Button>
     </div>
 )
