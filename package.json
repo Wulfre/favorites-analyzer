@@ -1,5 +1,5 @@
 {
-    "name": "astro",
+    "name": "wulfre",
     "type": "module",
     "scripts": {
         "dev": "astro dev",
@@ -10,11 +10,23 @@
         "@astrojs/vercel": "^5.0.2",
         "@preact/signals": "^1.2.1",
         "astro": "^3.3.3",
-        "preact": "^10.6.5"
+        "clsx": "^2.0.0",
+        "preact": "^10.6.5",
+        "tailwind-merge": "^1.14.0"
     },
     "devDependencies": {
+        "@stylistic/eslint-plugin": "^0.1.1",
         "@total-typescript/ts-reset": "^0.5.1",
+        "@typescript-eslint/eslint-plugin": "^6.9.0",
+        "@typescript-eslint/parser": "^6.9.0",
+        "@unocss/eslint-config": "^0.57.1",
         "@unocss/reset": "^0.57.0",
+        "eslint": "^8.52.0",
+        "eslint-config-preact": "^1.3.0",
+        "eslint-plugin-astro": "^0.29.1",
+        "eslint-plugin-jsx-a11y": "^6.7.1",
+        "eslint-plugin-only-warn": "^1.1.0",
+        "eslint-plugin-unicorn": "^48.0.1",
         "unocss": "^0.57.0"
     }
 }
