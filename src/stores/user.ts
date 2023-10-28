@@ -33,7 +33,7 @@ const favoritesResponseSchema = object({
 })
 
 const getFavoritesPage = e6Throttle(async (userId: number, page: number): Promise<Post[]> => {
-    const response = await fetch(`https://e621.net/favorites.json?_client=${clientString}&user_id=${userId}&limit=${pageLimit}&page=${page}`, { cache: "no-cache" })
+    const response = await fetch(`https://e621.net/favorites.json?_client=${clientString}&user_id=${userId}&limit=${pageLimit}&page=${page}`)
 
     $user.state.status.favorites.currentPage.value += 1
 
@@ -66,10 +66,28 @@ const getFavorites = async (user: User): Promise<Post[]> => {
     return favorites
 }
 
+export const getPostsTagScores = (posts: Post[]): Map<string, number> => {
+    const tagScores = new Map<string, number>()
+
+    for (const post of posts) {
+        for (const tags of Object.values(post.tags)) {
+            for (const tag of tags) {
+                const count = tagScores.get(tag) ?? 0
+                tagScores.set(tag, count + 1)
+            }
+        }
+    }
+
+    return tagScores
+}
+
 export const $user = {
     state: {
         user: signal<User | undefined>(undefined),
-        favorites: signal<Post[]>([]),
+        favorites: {
+            posts: signal<Post[]>([]),
+            tagScores: computed((): [string, number][] => [...getPostsTagScores($user.state.favorites.posts.value).entries()].sort(([, a], [, b]) => b - a)),
+        },
         status: {
             loading: computed((): boolean => $user.state.status.user.loading.value || $user.state.status.favorites.loading.value),
             user: {
@@ -90,7 +108,7 @@ export const $user = {
 
             if ($user.state.user.value !== undefined) {
                 $user.state.status.favorites.loading.value = true
-                $user.state.favorites.value = await getFavorites($user.state.user.value)
+                $user.state.favorites.posts.value = await getFavorites($user.state.user.value)
                 $user.state.status.favorites.loading.value = false
             }
         },

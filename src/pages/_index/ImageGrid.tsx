@@ -5,7 +5,7 @@ import Loader from "~/components/ui/Loader"
 import Show from "~/components/wrappers/Show"
 import For from "~/components/wrappers/For"
 
-const $displayFavorites = computed(() => $user.state.favorites.value.filter((post) => !post.flags.deleted))
+const $displayFavorites = computed(() => $user.state.favorites.posts.value.filter((post) => !post.flags.deleted))
 
 export default (): JSX.Element => (
     <Show
@@ -17,6 +17,9 @@ export default (): JSX.Element => (
             </div>
         )}
     >
+        <pre class="h-80dvh overflow-auto rounded bg-white p-1 text-3 font-mono shadow shadow-paper-muted">
+            {JSON.stringify($user.state.favorites.tagScores.value, undefined, 4)}
+        </pre>
         <div
             className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] place-items-center gap-8"
             data-testid="gallery"
