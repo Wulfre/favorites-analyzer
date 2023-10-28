@@ -46,7 +46,7 @@ const postRelationshipsSchema = object({
 const postSampleAlternatesSchema = record(object({
     height: number(),
     type: string(),
-    urls: nullable(array(string())),
+    urls: array(nullable(string())),
     width: number(),
 }))
 

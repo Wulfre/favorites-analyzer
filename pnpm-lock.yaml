@@ -44,8 +44,8 @@ devDependencies:
     specifier: ^0.57.1
     version: 0.57.1
   '@wulfre/eslint-config':
-    specifier: ^0.1.1
-    version: 0.1.1(eslint@8.52.0)(typescript@5.2.2)
+    specifier: ^0.1.3
+    version: 0.1.3(eslint@8.52.0)(typescript@5.2.2)
   eslint:
     specifier: ^8.52.0
     version: 8.52.0
@@ -1588,8 +1588,8 @@ packages:
       - supports-color
     dev: false
 
-  /@wulfre/eslint-config@0.1.1(eslint@8.52.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-z5xXEbdTl0eCTGfjs3refatSa3DGAmUWFcB5oHaJ00k1DD/8VlNPIlKh5qvLxcplT5XlEPvYXWWDGfhNZfxSMA==}
+  /@wulfre/eslint-config@0.1.3(eslint@8.52.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-5nMaJXWph0bfqsH/Uteac6Y8EDT4jMCz/nTekYDP1vD8uz6ka/JPjy114mBXbJ3PuV7KsWjSMZpUOKtdOYSGoQ==}
     peerDependencies:
       eslint: '>=8.21.0'
     dependencies:

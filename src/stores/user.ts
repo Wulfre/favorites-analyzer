@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals"
+import { signal, computed } from "@preact/signals"
 import { object, array, parse } from "valibot"
 import pThrottle from "p-throttle"
 import { $toaster } from "~/components/Toaster"
@@ -35,6 +35,8 @@ const favoritesResponseSchema = object({
 const getFavoritesPage = e6Throttle(async (userId: number, page: number): Promise<Post[]> => {
     const response = await fetch(`https://e621.net/favorites.json?_client=${clientString}&user_id=${userId}&limit=${pageLimit}&page=${page}`, { cache: "no-cache" })
 
+    $user.state.status.favorites.currentPage.value += 1
+
     if (!response.ok) {
         return []
     }
@@ -45,9 +47,10 @@ const getFavoritesPage = e6Throttle(async (userId: number, page: number): Promis
 
 const getFavorites = async (user: User): Promise<Post[]> => {
     const numberOfPages = Math.ceil(user.favorite_count / pageLimit)
+    $user.state.status.favorites.totalPages.value = numberOfPages
 
     const requests = Array.from({ length: numberOfPages }, (_, index) => index + 1)
-        .map(async (page) => await getFavoritesPage(user.id, page))
+        .map((page) => getFavoritesPage(user.id, page))
 
     const results = await Promise.allSettled(requests)
     const favorites = results.flatMap((result) => result.status === "fulfilled" ? result.value : [])
@@ -67,18 +70,29 @@ export const $user = {
     state: {
         user: signal<User | undefined>(undefined),
         favorites: signal<Post[]>([]),
-        loading: signal(false),
+        status: {
+            loading: computed((): boolean => $user.state.status.user.loading.value || $user.state.status.favorites.loading.value),
+            user: {
+                loading: signal(false),
+            },
+            favorites: {
+                loading: signal(false),
+                currentPage: signal(0),
+                totalPages: signal(0),
+            },
+        },
     },
     actions: {
         fetch: async (username: string) => {
-            $user.state.loading.value = true
+            $user.state.status.user.loading.value = true
             $user.state.user.value = await getUser(username)
+            $user.state.status.user.loading.value = false
 
             if ($user.state.user.value !== undefined) {
+                $user.state.status.favorites.loading.value = true
                 $user.state.favorites.value = await getFavorites($user.state.user.value)
+                $user.state.status.favorites.loading.value = false
             }
-
-            $user.state.loading.value = false
         },
     },
 }
