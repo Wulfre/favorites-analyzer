@@ -1,7 +1,7 @@
 import { computed } from "@preact/signals"
 import type { JSX } from "preact"
 import { $user } from "~/stores/user"
-import Loader from "~/components/Loader"
+import Loader from "~/components/ui/Loader"
 import Show from "~/components/wrappers/Show"
 import For from "~/components/wrappers/For"
 

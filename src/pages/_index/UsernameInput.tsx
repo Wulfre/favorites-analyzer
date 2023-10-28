@@ -1,6 +1,6 @@
 import { signal } from "@preact/signals"
 import type { JSX } from "preact"
-import Button from "~/components/Button"
+import Button from "~/components/ui/Button"
 import { $user } from "~/stores/user"
 
 const $username = signal("")
