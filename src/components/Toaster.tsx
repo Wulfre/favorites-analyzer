@@ -1,8 +1,8 @@
 import { signal, computed, effect } from "@preact/signals"
+import type { JSX } from "preact"
 import { createManagedTimeout } from "~/utils/timeout"
 import type { ManagedTimeout } from "~/utils/timeout"
 import { cn } from "~/utils/style"
-import type { JSX } from "preact"
 
 const positionStyles = {
     "top-left": "top-0 left-0",
@@ -84,13 +84,21 @@ type ToasterProps = JSX.HTMLAttributes<HTMLDivElement> & {
 
 export default ({ position = "bottom-center", className }: ToasterProps): JSX.Element => (
     <div
-        data-testid={"toaster"}
+        data-testid="toaster"
         className={cn("fixed flex flex-col gap-5 p-5", positionStyles[position], className)}
-        onMouseEnter={() => { $toaster.state.toasts.value.forEach((toast) => { toast.timeout.pause() }) }}
-        onMouseLeave={() => { $toaster.state.toasts.value.forEach((toast) => { toast.timeout.resume() }) }}
+        onMouseEnter={() => {
+            $toaster.state.toasts.value.forEach((toast) => {
+                toast.timeout.pause()
+            })
+        }}
+        onMouseLeave={() => {
+            $toaster.state.toasts.value.forEach((toast) => {
+                toast.timeout.resume()
+            })
+        }}
     >
         {[...$toaster.state.toasts.value.entries()]
-            .filter((([key]) => $toaster.state.visibleToastKeys.value.includes(key)))
+            .filter(([key]) => $toaster.state.visibleToastKeys.value.includes(key))
             .map(([key, toast]) => (
                 <Toast key={key} {...toast} />
             ))}

@@ -1,12 +1,12 @@
 ---
+import ImageGrid from "./_index/ImageGrid"
 import Layout from "~/layouts/Layout.astro"
 import UsernameInput from "~/pages/_index/UsernameInput"
-import ImageGrid from "./_index/ImageGrid"
 ---
 
-<Layout title="Wulfre's Website">
-    <main class="flex flex-col gap-13 p-5">
-        <UsernameInput client:load/>
-        <ImageGrid client:load />
-    </main>
-</Layout>
+    <Layout title="Wulfre's Website">
+        <main class="flex flex-col gap-13 p-5">
+            <UsernameInput client:load />
+            <ImageGrid client:load />
+        </main>
+    </Layout>

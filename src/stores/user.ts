@@ -1,12 +1,12 @@
 import { signal } from "@preact/signals"
 import { object, array, parse } from "valibot"
+import pThrottle from "p-throttle"
 import { $toaster } from "~/components/Toaster"
 import { clientString, pageLimit } from "~/utils/constants"
 import { userSchema } from "~/schemas/user"
 import type { User } from "~/schemas/user"
 import { postSchema } from "~/schemas/post"
 import type { Post } from "~/schemas/post"
-import pThrottle from "p-throttle"
 
 const e6Throttle = pThrottle({
     limit: 2,
@@ -52,7 +52,7 @@ const getFavorites = async (user: User): Promise<Post[]> => {
     const results = await Promise.allSettled(requests)
     const favorites = results.flatMap((result) => result.status === "fulfilled" ? result.value : [])
 
-    if(favorites.length === 0) {
+    if (favorites.length === 0) {
         $toaster.actions.addToast({
             type: "warning",
             header: "Favorites Warning",
