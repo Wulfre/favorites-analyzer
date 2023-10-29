@@ -69,14 +69,14 @@ const getFavorites = async (user: User): Promise<Post[]> => {
 export const getPostsTagScores = (posts: Post[]): Map<string, number> => {
     const tagScores = new Map<string, number>()
 
-    for (const post of posts) {
-        for (const tags of Object.values(post.tags)) {
-            for (const tag of tags) {
+    posts.forEach((post) => {
+        Object.values(post.tags).forEach((tags) => {
+            tags.forEach((tag) => {
                 const count = tagScores.get(tag) ?? 0
                 tagScores.set(tag, count + 1)
-            }
-        }
-    }
+            })
+        })
+    })
 
     return tagScores
 }
