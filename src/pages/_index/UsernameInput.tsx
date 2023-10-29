@@ -11,6 +11,7 @@ export default (): JSX.Element => (
             class="w-20ch rounded p-x-2 p-y-1 shadow shadow-paper-muted outline-none"
             type="text"
             value={$username.value}
+            placeholder="username"
             onInput={(event) => { $username.value = event.currentTarget.value }}
         />
         <Button
