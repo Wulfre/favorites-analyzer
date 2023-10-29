@@ -17,9 +17,12 @@ export default (): JSX.Element => (
             </div>
         )}
     >
-        <pre class="h-80dvh overflow-auto rounded bg-white p-1 text-3 font-mono shadow shadow-paper-muted">
-            {JSON.stringify($user.state.favorites.tagScores.value, undefined, 4)}
-        </pre>
+        <details open={$displayFavorites.value.length > 0}>
+            <summary>Tag Scores</summary>
+            <pre class="h-70dvh overflow-auto rounded bg-white p-1 text-3 font-mono shadow shadow-paper-muted">
+                {JSON.stringify($user.state.favorites.tagScores.value, undefined, 4)}
+            </pre>
+        </details>
         <div
             className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] place-items-center gap-8"
             data-testid="gallery"
