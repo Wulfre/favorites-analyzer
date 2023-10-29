@@ -111,6 +111,8 @@ export const $user = {
                 $user.state.favorites.posts.value = await getFavorites($user.state.user.value)
                 $user.state.status.favorites.loading.value = false
             }
+
+            $user.state.status.favorites.currentPage.value = 0
         },
     },
 }
