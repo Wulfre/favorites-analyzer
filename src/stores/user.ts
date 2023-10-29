@@ -66,14 +66,30 @@ const getFavorites = async (user: User): Promise<Post[]> => {
     return favorites
 }
 
-export const getPostsTagScores = (posts: Post[]): Map<string, number> => {
-    const tagScores = new Map<string, number>()
+type TagScore = {
+    firstAppearance: number
+    totalAppearances: number
+    score: number
+}
 
-    posts.forEach((post) => {
-        Object.values(post.tags).forEach((tags) => {
+export const getPostsTagScores = (posts: Post[]): Map<string, TagScore> => {
+    const tagScores = new Map<string, TagScore>()
+
+    posts.forEach((post, postIndex) => {
+        Object.entries(post.tags).forEach(([category, tags]) => {
             tags.forEach((tag) => {
-                const count = tagScores.get(tag) ?? 0
-                tagScores.set(tag, count + 1)
+                const key = `${category}#${tag}`
+                const count = tagScores.get(key) ?? {
+                    firstAppearance: postIndex,
+                    totalAppearances: 1,
+                    score: 0,
+                }
+
+                tagScores.set(key, {
+                    firstAppearance: count.firstAppearance,
+                    totalAppearances: count.totalAppearances + 1,
+                    score: count.score + (1 / (postIndex + count.firstAppearance + 1) / count.totalAppearances),
+                })
             })
         })
     })
@@ -86,7 +102,7 @@ export const $user = {
         user: signal<User | undefined>(undefined),
         favorites: {
             posts: signal<Post[]>([]),
-            tagScores: computed((): [string, number][] => [...getPostsTagScores($user.state.favorites.posts.value).entries()].sort(([, a], [, b]) => b - a)),
+            tagScores: computed((): [string, TagScore][] => [...getPostsTagScores($user.state.favorites.posts.value).entries()].sort(([, { score: a }], [, { score: b }]) => b - a)),
         },
         status: {
             loading: computed((): boolean => $user.state.status.user.loading.value || $user.state.status.favorites.loading.value),
