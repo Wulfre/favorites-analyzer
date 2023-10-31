@@ -4,8 +4,6 @@
         "jsxImportSource": "preact",
         "jsx": "react-jsx",
         "baseUrl": "./",
-        "paths": {
-            "~/*": ["./src/*"],
-        }
+        "paths": { "~/*": ["./src/*"] }
     }
 }

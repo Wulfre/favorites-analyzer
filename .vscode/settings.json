@@ -12,7 +12,9 @@
         "javascriptreact",
         "typescript",
         "typescriptreact",
-        "astro"
+        "astro",
+        "json",
+        "jsonc"
     ],
 
     // autofix
