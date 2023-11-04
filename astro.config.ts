@@ -5,9 +5,18 @@ import preact from "@astrojs/preact"
 
 export default defineConfig({
     output: "server",
-    adapter: vercel(),
+    adapter: vercel({
+        webAnalytics: {
+            enabled: true,
+        },
+        speedInsights: {
+            enabled: true,
+        },
+    }),
     integrations: [
         preact(),
-        unocss({ injectReset: true }),
+        unocss({
+            injectReset: true,
+        }),
     ],
 })

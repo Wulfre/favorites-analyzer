@@ -82,25 +82,27 @@ type ToasterProps = JSX.HTMLAttributes<HTMLDivElement> & {
     position?: keyof typeof positionStyles
 }
 
-export default ({ position = "bottom-center", className }: ToasterProps): JSX.Element => (
-    <div
-        data-testid="toaster"
-        className={cn("fixed flex flex-col gap-5 p-5", positionStyles[position], className)}
-        onMouseEnter={() => {
-            $toaster.state.toasts.value.forEach((toast) => {
-                toast.timeout.pause()
-            })
-        }}
-        onMouseLeave={() => {
-            $toaster.state.toasts.value.forEach((toast) => {
-                toast.timeout.resume()
-            })
-        }}
-    >
-        {[...$toaster.state.toasts.value.entries()]
-            .filter(([key]) => $toaster.state.visibleToastKeys.value.includes(key))
-            .map(([key, toast]) => (
-                <Toast key={key} {...toast} />
-            ))}
-    </div>
-)
+export default function Toaster({ position = "bottom-center", className }: ToasterProps): JSX.Element {
+    return (
+        <div
+            data-testid="toaster"
+            className={cn("fixed flex flex-col gap-5 p-5", positionStyles[position], className)}
+            onMouseEnter={() => {
+                $toaster.state.toasts.value.forEach((toast) => {
+                    toast.timeout.pause()
+                })
+            }}
+            onMouseLeave={() => {
+                $toaster.state.toasts.value.forEach((toast) => {
+                    toast.timeout.resume()
+                })
+            }}
+        >
+            {[...$toaster.state.toasts.value.entries()]
+                .filter(([key]) => $toaster.state.visibleToastKeys.value.includes(key))
+                .map(([key, toast]) => (
+                    <Toast key={key} {...toast} />
+                ))}
+        </div>
+    )
+}
