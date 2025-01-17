@@ -1,0 +1,13 @@
+{
+    "extends": "astro/tsconfigs/strictest",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
+        "baseUrl": ".",
+        "paths": {
+            "~/*": ["./src/*"]
+        }
+    },
+    "include": [".astro/types.d.ts", ".wrangler/types/runtime.d.ts", "**/*"],
+    "exclude": ["dist"]
+}

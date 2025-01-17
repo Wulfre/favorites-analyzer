@@ -1,0 +1,19 @@
+# build
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+
+# os
+.DS_Store
+
+# wrangler
+.wrangler/
+.dev.vars
