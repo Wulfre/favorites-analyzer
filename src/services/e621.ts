@@ -1,15 +1,12 @@
 import { z } from "astro:schema"
 import { DOMParser, HTMLElement } from "linkedom/worker"
-import pThrottle from "p-throttle"
 import { cluster } from "radashi"
+import { throttle } from "~/utils/throttle"
 
-const baseUrl = "https://e621.net"
-const userAgent = "favorites-analyzer/20250113 (by wulfre)"
+export const baseUrl = "https://e621.net"
+export const userAgent = "favorites-analyzer/20250113 (by wulfre)"
 
-const throttledFetch = pThrottle({
-    limit: 2,
-    interval: 1000,
-})(fetch)
+const throttledFetch = throttle(fetch, 2, 1000)
 
 const userResponseSchema = z.object({
     favorite_count: z.number(),
