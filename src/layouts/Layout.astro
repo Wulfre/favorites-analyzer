@@ -1,6 +1,8 @@
 ---
+import "~/assets/global.css"
+
 type Props = {
-    title?: string
+	title?: string
 }
 
 const { props } = Astro
@@ -12,7 +14,13 @@ const { props } = Astro
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+		<link rel="preconnect" href="https://api.fontshare.com/" />
+		<link
+			rel="stylesheet"
+			href="https://api.fontshare.com/v2/css?f[]=author@1&f[]=azeret-mono@1&display=swap"
+		/>
 
 		<title>{props.title}</title>
 	</head>
@@ -20,7 +28,3 @@ const { props } = Astro
 		<slot />
 	</body>
 </html>
-
-<style>
-	@import "tailwindcss";
-</style>

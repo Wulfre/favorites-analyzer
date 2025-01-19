@@ -6,8 +6,9 @@ export const getSuggestions = defineAction({
     input: z.string(),
     handler: async (username) => {
         const user = await getUser(username)
-        const favorites = await getUserFavorites(user.id)
-        const tagScores = await scoreTags(favorites.posts.map((post) => post.tags))
+        const favorites = await getUserFavorites(user)
+        console.log(favorites.length)
+        const tagScores = await scoreTags(favorites.map((post) => post.tags))
         return tagScores
     },
 })

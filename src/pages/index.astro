@@ -1,10 +1,8 @@
 ---
-import { actions } from "astro:actions"
+import UserInput from "~/components/user-input"
 import Layout from "../layouts/Layout.astro"
-
-const suggestions = await Astro.callAction(actions.e621.getSuggestions, "wulfre")
 ---
 
 <Layout>
-    <pre>{JSON.stringify(suggestions.data, undefined, 4)}</pre>
+    <UserInput client:load />
 </Layout>

@@ -29,6 +29,9 @@ importers:
       linkedom:
         specifier: ^0.18.6
         version: 0.18.6
+      p-throttle:
+        specifier: ^7.0.0
+        version: 7.0.0
       preact:
         specifier: ^10.25.4
         version: 10.25.4
@@ -42,9 +45,6 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20250109.0
-        version: 4.20250109.0
       '@types/node':
         specifier: ^22.10.7
         version: 22.10.7
@@ -1873,6 +1873,10 @@ packages:
 
   p-queue@8.0.1:
     resolution: {integrity: sha512-NXzu9aQJTAzbBqOt2hwsR63ea7yvxJc0PwN/zobNAudYfb1B7R08SzB4TsLeSbUCuG467NhnoT0oO6w1qRO+BA==}
+    engines: {node: '>=18'}
+
+  p-throttle@7.0.0:
+    resolution: {integrity: sha512-aio0v+S0QVkH1O+9x4dHtD4dgCExACcL+3EtNaGqC01GBudS9ijMuUsmN8OVScyV4OOp0jqdLShZFuSlbL/AsA==}
     engines: {node: '>=18'}
 
   p-timeout@6.1.4:
@@ -4668,6 +4672,8 @@ snapshots:
     dependencies:
       eventemitter3: 5.0.1
       p-timeout: 6.1.4
+
+  p-throttle@7.0.0: {}
 
   p-timeout@6.1.4: {}
 

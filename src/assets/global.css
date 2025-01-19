@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Author", sans-serif;
+    --font-mono: "Azeret Mono", monospace;
+}

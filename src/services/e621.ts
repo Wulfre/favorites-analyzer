@@ -1,17 +1,24 @@
 import { z } from "astro:schema"
 import { DOMParser, HTMLElement } from "linkedom/worker"
+import pThrottle from "p-throttle"
 import { cluster } from "radashi"
 
 const baseUrl = "https://e621.net"
 const userAgent = "favorites-analyzer/20250113 (by wulfre)"
 
+const throttledFetch = pThrottle({
+    limit: 2,
+    interval: 1000,
+})(fetch)
+
 const userResponseSchema = z.object({
     favorite_count: z.number(),
     id: z.number(),
 })
+type User = z.infer<typeof userResponseSchema>
 
 export const getUser = async (username: string) => {
-    const userResponse = await fetch(`${baseUrl}/users/${username}.json`, {
+    const userResponse = await throttledFetch(`${baseUrl}/users/${username}.json`, {
         headers: { "User-Agent": userAgent },
     })
 
@@ -58,23 +65,31 @@ const postsResponseSchema = z.object({
 })
 type Post = z.infer<typeof postsResponseSchema>["posts"][0]
 
-export const getUserFavorites = async (userId: number) => {
-    const favoritesResponse = await fetch(`${baseUrl}/favorites.json?limit=320&user_id=${userId}`, {
-        headers: { "User-Agent": userAgent },
+export const getUserFavorites = async (user: User) => {
+    const limit = 320
+    const pages = Math.ceil(user.favorite_count / limit)
+
+    const favoritesPromises = Array.from({ length: pages }, async (_, i) => {
+        const favoritesResponse = await throttledFetch(
+            `${baseUrl}/favorites.json?limit=320&user_id=${user.id}&page=${i + 1}`,
+            {
+                headers: { "User-Agent": userAgent },
+            },
+        )
+
+        if (!favoritesResponse.ok) {
+            return { posts: [] }
+        }
+
+        const favoritesData = await favoritesResponse.json()
+        return postsResponseSchema.parse(favoritesData)
     })
 
-    if (!favoritesResponse.ok) {
-        throw new Error("failed to fetch favorites")
-    }
-
-    const favoritesData = await favoritesResponse.json()
-    const favorites = postsResponseSchema.parse(favoritesData)
-
-    return favorites
+    return (await Promise.all(favoritesPromises)).flatMap((favorites) => favorites.posts)
 }
 
 export const getPosts = async (tags: string[] = [], limit = 320) => {
-    const postsResponse = await fetch(
+    const postsResponse = await throttledFetch(
         `${baseUrl}/posts.json?limit=${limit}&tags=${tags.join(" ")}`,
         {
             headers: { "User-Agent": userAgent },
@@ -104,7 +119,7 @@ const getTags = async (names: string[] = [], limit = 320) => {
     const nameChunks = cluster(names, limit)
 
     const requestPromises = nameChunks.map(async (chunk) => {
-        const tagsResponse = await fetch(
+        const tagsResponse = await throttledFetch(
             `${baseUrl}/tags.json?limit=${limit}&search[name]=${chunk.join(",")}`,
             {
                 headers: { "User-Agent": userAgent },
@@ -147,7 +162,6 @@ const getTags = async (names: string[] = [], limit = 320) => {
 
     return (await Promise.all(requestPromises)).flat()
 }
-type Tag = Awaited<ReturnType<typeof getTags>>[0]
 
 export const getTotalPostsCount = async () => {
     const homeResponse = await fetch(`${baseUrl}/`, {
@@ -170,73 +184,27 @@ export const getTotalPostsCount = async () => {
 }
 
 interface TagScore {
-    tag: string
     type: string
-    frequency: number // Personal usage rate
-    popularity: number // Global usage rate
-    recency: number // Position-weighted score
-    interest: number // Relative usage comparison
-    totalScore: number // Combined score
+    // frequency: number // Personal usage rate
+    // popularity: number // Global usage rate
+    // recency: number // Position-weighted score
+    // interest: number // Relative usage comparison
+    // totalScore: number // Combined score
 }
 
-export const scoreTags = async (postTags: Post["tags"][]): Promise<TagScore[]> => {
-    const totalPostsCount = await getTotalPostsCount()
-    console.log(totalPostsCount)
-    const totalFavorites = postTags.length
+export const scoreTags = async (postTags: Post["tags"][]) => {
+    const tagMap = new Map<string, TagScore>()
 
-    // Gather tag occurrences and positions
-    const tagOccurrences = new Map<string, number>()
-    const tagPositions = new Map<string, number[]>()
-    const tagTypes = new Map<string, string>()
+    for (const tags of postTags) {
+        // Omit "invalid" and "meta" tags
+        const { invalid: _, meta: __, ...cleanTags } = tags
 
-    for (const [index, tags] of postTags.entries()) {
-        for (const [type, tagList] of Object.entries(tags)) {
-            if (type === "invalid" || type === "meta") {
-                continue
-            }
-
-            for (const tag of tagList) {
-                tagOccurrences.set(tag, (tagOccurrences.get(tag) ?? 0) + 1)
-                const positions = tagPositions.get(tag) ?? []
-                positions.push(index)
-                tagPositions.set(tag, positions)
-                tagTypes.set(tag, type)
+        for (const [type, names] of Object.entries(cleanTags)) {
+            for (const name of names) {
+                tagMap.set(name, { type })
             }
         }
     }
 
-    // Fetch tag data
-    const tagsNames = Array.from(tagOccurrences.keys())
-    const tagData = new Map<string, Tag>((await getTags(tagsNames)).map((tag) => [tag.name, tag]))
-
-    // Calculate scores for each tag
-    const scores: TagScore[] = []
-
-    for (const [tag, count] of tagOccurrences) {
-        const data = tagData.get(tag)
-
-        const positions = tagPositions.get(tag) || []
-        const avgPosition = positions.reduce((sum, pos) => sum + pos, 0) / positions.length
-
-        const frequency = count / totalFavorites
-        const popularity = (data?.post_count ?? 0) / totalPostsCount
-        const recency = 1 - avgPosition / totalFavorites
-        const interest =
-            popularity === 0 ? 0 : 0.5 * (1 + Math.tanh(Math.log(frequency / popularity)))
-
-        const score: TagScore = {
-            tag,
-            type: tagTypes.get(tag) ?? "general",
-            frequency,
-            popularity,
-            recency,
-            interest,
-            totalScore: frequency - popularity + interest,
-        }
-
-        scores.push(score)
-    }
-
-    // Sort by total score descending
-    return scores.sort((a, b) => b.totalScore - a.totalScore)
+    return Array.from(tagMap).sort(([a], [b]) => a.localeCompare(b))
 }
